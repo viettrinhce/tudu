@@ -68,10 +68,8 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel4" pref="162" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="pfPassword_login" pref="162" max="32767" attributes="0"/>
-                          <Component id="tfUsername_login" alignment="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="pfPassword_login" pref="162" max="32767" attributes="0"/>
+                      <Component id="tfUsername_login" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="78" max="32767" attributes="0"/>
               </Group>

@@ -2,6 +2,7 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -21,6 +22,29 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    
+    private int user_id;
+    private String user_name;
+    
+    /** **/
+    
+    public int getUser_id(){
+        return this.user_id;
+    }
+    
+    public String getUser_name(){
+        return this.user_name;
+    }
+    
+    public void setUser_id(int id){
+        this.user_id = id;
+    }   
+    
+    public void setUser_name(String username){
+        this.user_name = username;
+    } 
+
+    
     DBConnection conn;
     public Login() {
         initComponents();
@@ -232,7 +256,17 @@ public class Login extends javax.swing.JFrame {
             if(res.next()){
                 //display dashboard or new page after login.
                 dispose();
+                ResultSetMetaData metadata = res.getMetaData();
+                int columnCount = metadata.getColumnCount();    
+                
+                int user_id = (int)res.getObject(1);
+                String user_name = (String)res.getObject(2);
+                String user_password = (String)res.getObject(3);
+                System.out.println("Login || user_id: " + user_id +  " __user_name: " + user_name + " __user_password: " + user_password);      
+               
                 Dashboard d = new Dashboard();
+                d.setUser_id(user_id);
+                d.setUser_name(user_name);
                 d.setTitle("Dashboard");
                 d.setVisible(true);
                 
