@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import org.jdatepicker.impl.*;
 import org.jdatepicker.util.*;
 import org.jdatepicker.*;
+import java.awt.Color;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,7 +25,7 @@ public class CreateTask extends javax.swing.JFrame {
     
     private int user_id = 0;
     private String user_name = "None";
-
+    public Color color;
     public int getUser_id(){
         return this.user_id;
     }
@@ -59,11 +60,15 @@ public class CreateTask extends javax.swing.JFrame {
 
         jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
         utilCalendarModel1 = new org.jdatepicker.impl.UtilCalendarModel();
+        jColorChooser1 = new javax.swing.JColorChooser();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tfTaskDescription_CreateTask = new javax.swing.JTextField();
         tfTaskName_CreateTask = new javax.swing.JTextField();
         jButtonCreate_CreateTask = new javax.swing.JButton();
+        jColorChooser = new javax.swing.JColorChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,15 +97,24 @@ public class CreateTask extends javax.swing.JFrame {
             }
         });
 
+        jColorChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jColorChooserPropertyChange(evt);
+            }
+        });
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextArea1.setRows(5);
+        jTextArea1.setText("Choose color for new task:");
+        jScrollPane1.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(132, 132, 132)
                         .addComponent(jButtonCreate_CreateTask))
@@ -109,32 +123,52 @@ public class CreateTask extends javax.swing.JFrame {
                         .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(tfTaskName_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(192, Short.MAX_VALUE))
+                        .addComponent(tfTaskName_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(147, 147, 147)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(26, 26, 26)
-                .addComponent(tfTaskName_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
-                .addComponent(jButtonCreate_CreateTask)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(26, 26, 26)
+                        .addComponent(tfTaskName_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70)
+                        .addComponent(jButtonCreate_CreateTask))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -160,9 +194,14 @@ public class CreateTask extends javax.swing.JFrame {
         } else {
             // Start login process
             System.out.println("in create task " + this.getUser_name());
-            createTask(taskName, taskDescription, this.user_id);          
+            createTask(taskName, taskDescription, this.user_id, color.toString());          
         }
     }//GEN-LAST:event_jButtonCreate_CreateTaskActionPerformed
+
+    private void jColorChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jColorChooserPropertyChange
+        // TODO add your handling code here:
+        color = jColorChooser.getColor();
+    }//GEN-LAST:event_jColorChooserPropertyChange
 
     /**
      * @param args the command line arguments
@@ -201,26 +240,31 @@ public class CreateTask extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCreate_CreateTask;
+    private javax.swing.JColorChooser jColorChooser;
+    private javax.swing.JColorChooser jColorChooser1;
     private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField tfTaskDescription_CreateTask;
     private javax.swing.JTextField tfTaskName_CreateTask;
     private org.jdatepicker.impl.UtilCalendarModel utilCalendarModel1;
     // End of variables declaration//GEN-END:variables
 
-
-    private void createTask(String taskName, String taskDescription, int user_id) {
+//should be renamed to be descriptive of writing to database
+    private void createTask(String taskName, String taskDescription, int user_id, String color) {
         Connection dbconn= DBConnection.connectDB();
         System.out.println("in dbconn - Create Task");
 
         try {
             PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id) values (?,?,?)");
+                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, color) values (?,?,?,?)");
             String sUser_id = Integer.toString(user_id);
             st.setString(1, taskName);
             st.setString(2, taskDescription);
             st.setString(3, sUser_id);
+            st.setString(4, color);
             int res = st.executeUpdate();
             
             System.out.println("got result - Create Task");

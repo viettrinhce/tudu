@@ -6,6 +6,9 @@ import java.sql.ResultSetMetaData;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,7 +21,13 @@ import javax.swing.JOptionPane;
  * @author viett
  */
 public class Login extends javax.swing.JFrame {
-
+    
+// 
+//    UtilDateModel model = new UtilDateModel();
+//    JDatePanelImpl datePanel = new JDatePanelImpl(model);
+//    JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
+//
+//    frame.add(datePicker);
     /**
      * Creates new form Login
      */
