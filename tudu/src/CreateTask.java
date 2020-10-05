@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+//import tuduDateTime.tuduDateTime;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -57,6 +58,7 @@ public class CreateTask extends javax.swing.JFrame {
         tfTaskDescription_CreateTask = new javax.swing.JTextField();
         tfTaskName_CreateTask = new javax.swing.JTextField();
         jButtonCreate_CreateTask = new javax.swing.JButton();
+        jDateChooserCreate = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,10 +98,11 @@ public class CreateTask extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(jButtonCreate_CreateTask)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonCreate_CreateTask)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                                .addComponent(jDateChooserCreate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(181, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -114,9 +117,11 @@ public class CreateTask extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(75, 75, 75)
                 .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(18, 18, 18)
+                .addComponent(jDateChooserCreate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addComponent(jButtonCreate_CreateTask)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(53, 53, 53)
@@ -150,6 +155,16 @@ public class CreateTask extends javax.swing.JFrame {
         // TODO add your handling code here:
         String taskName = tfTaskName_CreateTask.getText();
         String taskDescription = tfTaskDescription_CreateTask.getText();
+        String sDate = "";
+        java.util.Date taskDate = jDateChooserCreate.getDate();
+        if (taskDate == null) {
+            System.out.println("No date specified!");
+        } else {
+            java.sql.Date date = new java.sql.Date(taskDate.getTime());
+            // Do something with sqldate
+            System.out.println("in create task " + date);
+            sDate = date.toString();
+        }
         System.out.println("in create task " + taskName);
         System.out.println("in create task " + taskDescription);
 
@@ -158,7 +173,7 @@ public class CreateTask extends javax.swing.JFrame {
         } else {
             // Start login process
             System.out.println("in create task " + this.getUser_name());
-            createTask(taskName, taskDescription, this.user_id);          
+            createTask(taskName, taskDescription, this.user_id, sDate);          
         }
     }//GEN-LAST:event_jButtonCreate_CreateTaskActionPerformed
 
@@ -199,23 +214,25 @@ public class CreateTask extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCreate_CreateTask;
+    private com.toedter.calendar.JDateChooser jDateChooserCreate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField tfTaskDescription_CreateTask;
     private javax.swing.JTextField tfTaskName_CreateTask;
     // End of variables declaration//GEN-END:variables
 
-    private void createTask(String taskName, String taskDescription, int user_id) {
+    private void createTask(String taskName, String taskDescription, int user_id, String date) {
         Connection dbconn= DBConnection.connectDB();
         System.out.println("in dbconn - Create Task");
 
         try {
             PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id) values (?,?,?)");
+                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, task_duedate) values (?,?,?,?)");
             String sUser_id = Integer.toString(user_id);
             st.setString(1, taskName);
             st.setString(2, taskDescription);
             st.setString(3, sUser_id);
+            st.setString(4, date);
             int res = st.executeUpdate();
             
             System.out.println("got result - Create Task");
@@ -228,6 +245,7 @@ public class CreateTask extends javax.swing.JFrame {
                 dispose();
                 System.out.println("taskName: " + taskName);
                 System.out.println("taskDescription: " + taskDescription);
+                System.out.println("date: " + date);
             } else {
                 JOptionPane.showMessageDialog(this, "Wrong input data", "Error", JOptionPane.ERROR_MESSAGE);
             }
