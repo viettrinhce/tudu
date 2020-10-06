@@ -8,6 +8,10 @@ import org.jdatepicker.impl.*;
 import org.jdatepicker.util.*;
 import org.jdatepicker.*;
 import java.awt.Color;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.colorchooser.*; 
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,7 +25,7 @@ import java.awt.Color;
  */
 
 
-public class CreateTask extends javax.swing.JFrame {
+public class CreateTask extends javax.swing.JFrame implements ChangeListener{
     
     private int user_id = 0;
     private String user_name = "None";
@@ -48,6 +52,14 @@ public class CreateTask extends javax.swing.JFrame {
     public CreateTask() {
         initComponents();
     }
+    
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        Color newColor = jColorPane.getColor();
+        label.setForeground(newColor);
+        System.out.println("color change: ");
+        System.out.println(newColor.toString());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,9 +78,7 @@ public class CreateTask extends javax.swing.JFrame {
         tfTaskDescription_CreateTask = new javax.swing.JTextField();
         tfTaskName_CreateTask = new javax.swing.JTextField();
         jButtonCreate_CreateTask = new javax.swing.JButton();
-        jColorChooser = new javax.swing.JColorChooser();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,17 +107,7 @@ public class CreateTask extends javax.swing.JFrame {
             }
         });
 
-        jColorChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jColorChooserPropertyChange(evt);
-            }
-        });
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Choose color for new task:");
-        jScrollPane1.setViewportView(jTextArea1);
+        label.setText("Color Chooser");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,34 +115,30 @@ public class CreateTask extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(jButtonCreate_CreateTask))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(tfTaskName_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(132, 132, 132)
+                            .addComponent(jButtonCreate_CreateTask))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel1)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(147, 147, 147)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(204, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(tfTaskName_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(162, 162, 162)
+                                .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1))))
+                .addContainerGap(355, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
                         .addGap(26, 26, 26)
                         .addComponent(tfTaskName_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -150,10 +146,9 @@ public class CreateTask extends javax.swing.JFrame {
                         .addGap(70, 70, 70)
                         .addComponent(jButtonCreate_CreateTask))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(11, 11, 11)
+                        .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(391, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -198,11 +193,6 @@ public class CreateTask extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonCreate_CreateTaskActionPerformed
 
-    private void jColorChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jColorChooserPropertyChange
-        // TODO add your handling code here:
-        color = jColorChooser.getColor();
-    }//GEN-LAST:event_jColorChooserPropertyChange
-
     /**
      * @param args the command line arguments
      */
@@ -240,13 +230,9 @@ public class CreateTask extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCreate_CreateTask;
-    private javax.swing.JColorChooser jColorChooser;
-    private javax.swing.JColorChooser jColorChooser1;
-    private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel label;
     private javax.swing.JTextField tfTaskDescription_CreateTask;
     private javax.swing.JTextField tfTaskName_CreateTask;
     private org.jdatepicker.impl.UtilCalendarModel utilCalendarModel1;

@@ -6,9 +6,6 @@ import java.sql.ResultSetMetaData;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
