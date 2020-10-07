@@ -1,12 +1,16 @@
 
 import java.awt.Color;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import tuduDateTime.tuduDateTime;
 //import tuduDateTime.tuduDateTime;
 
 /*
@@ -19,7 +23,9 @@ import javax.swing.event.ChangeListener;
  *
  * @author viett
  */
+
 public class CreateTask extends javax.swing.JFrame implements ChangeListener {
+
     private int user_id = 0;
     private String user_name = "None";
     Color newColor;
@@ -245,16 +251,21 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
     private void createTask(String taskName, String taskDescription, int user_id, String date, Color newColor) {
         Connection dbconn= DBConnection.connectDB();
         System.out.println("in dbconn - Create Task");
-
+        System.out.println("passed in date: " + date);
+        java.util.Date currentDate = new java.util.Date();
+        long currentDateTime = currentDate.getTime();
+        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateTimeStr = dateTimeFormatter.format(currentDateTime);
         try {
             PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, task_duedate, color) values (?,?,?,?,?)");
+                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, task_duedate, color, date_created) values (?,?,?,?,?,?)");
             String sUser_id = Integer.toString(user_id);
             st.setString(1, taskName);
             st.setString(2, taskDescription);
             st.setString(3, sUser_id);
             st.setString(4, date);
             st.setString(5, newColor.toString());
+            st.setString(6, dateTimeStr); //fix for date_Created
             int res = st.executeUpdate();
             
             System.out.println("got result - Create Task");
