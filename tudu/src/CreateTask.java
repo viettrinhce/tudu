@@ -11,6 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import tuduDateTime.tuduDateTime;
+import javax.swing.ButtonModel;
+import javax.swing.ButtonGroup;
+import GroupButtonUtils.GroupButtonUtils;
 //import tuduDateTime.tuduDateTime;
 
 /*
@@ -21,14 +24,16 @@ import tuduDateTime.tuduDateTime;
 
 /**
  *
- * @author viett
+ * @authors viett and cidetraq
  */
+
 
 public class CreateTask extends javax.swing.JFrame implements ChangeListener {
 
     private int user_id = 0;
     private String user_name = "None";
-    Color newColor;
+    public Color newColor;
+    ButtonModel selectedStatus;
     public int getUser_id(){
         return this.user_id;
     }
@@ -51,10 +56,11 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
     public CreateTask() {
         initComponents();
     }
-    
+    @Override
     public void stateChanged(ChangeEvent e) 
     { 
-        newColor = Jcc.getColor(); 
+        newColor = jcc.getColor(); 
+        selectedStatus = buttonGroup1.getSelection();
         tfTaskName_CreateTask.setForeground(newColor); 
     } 
 
@@ -68,13 +74,20 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
     private void initComponents() {
 
         jColorChooser1 = new javax.swing.JColorChooser();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tfTaskDescription_CreateTask = new javax.swing.JTextField();
         tfTaskName_CreateTask = new javax.swing.JTextField();
         jButtonCreate_CreateTask = new javax.swing.JButton();
         jDateChooserCreate = new com.toedter.calendar.JDateChooser();
-        Jcc = new javax.swing.JColorChooser(tfTaskName_CreateTask.getForeground());
+        jcc = new javax.swing.JColorChooser();
+        status1 = new javax.swing.JRadioButton("not started", true);
+        status2 = new javax.swing.JRadioButton();
+        status3 = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +116,25 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
             }
         });
 
+        jDateChooserCreate.setToolTipText("Select Date");
+
+        buttonGroup1.add(status1);
+        status1.setText("not started");
+
+        buttonGroup1.add(status2);
+        status2.setText("doing");
+        status2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                status2ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(status3);
+        status3.setText("done");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setText("Status");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -114,14 +146,26 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonCreate_CreateTask)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                                .addComponent(jDateChooserCreate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addGap(18, 18, 18)
-                .addComponent(Jcc, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(146, Short.MAX_VALUE))
+                                .addComponent(jDateChooserCreate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(93, 93, 93)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(status1)
+                                    .addComponent(status2)
+                                    .addComponent(status3))))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jcc, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(201, 201, 201)
+                        .addComponent(jButtonCreate_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(64, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(20, 20, 20)
@@ -133,16 +177,29 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Jcc, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(75, 75, 75)
-                        .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jDateChooserCreate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(jButtonCreate_CreateTask)))
-                .addContainerGap(230, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcc, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(75, 75, 75)
+                                .addComponent(tfTaskDescription_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jDateChooserCreate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                        .addComponent(status1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(status2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(status3))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonCreate_CreateTask, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)))
+                .addGap(33, 33, 33))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(53, 53, 53)
@@ -150,17 +207,21 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
                     .addContainerGap(227, Short.MAX_VALUE)))
         );
 
-        Jcc.getSelectionModel().addChangeListener(this);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(37, 37, 37))
         );
 
         pack();
@@ -176,10 +237,29 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
 
     private void jButtonCreate_CreateTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreate_CreateTaskActionPerformed
         // TODO add your handling code here:
+        //handling the status button selection here
         String taskName = tfTaskName_CreateTask.getText();
         String taskDescription = tfTaskDescription_CreateTask.getText();
         String sDate = "";
-        System.out.println("create task to db: color is " + newColor.toString());
+        GroupButtonUtils buttonUtilityObj = new GroupButtonUtils();
+        String selectedStatusText = buttonUtilityObj.getSelectedButtonText(buttonGroup1);
+        System.out.println("selected status is: " + selectedStatusText);
+        System.out.println("create task to db: color is " + this.newColor.toString());
+        //map selectedStatus to integers
+        int selectedStatusInt = 1;
+        switch(selectedStatusText) {
+            case "not started":
+                selectedStatusInt = 1;
+                break;
+            case "doing":
+                selectedStatusInt = 2;
+              break;
+            case "done":
+                selectedStatusInt = 3;
+                break;
+            default:
+              selectedStatusInt = 1;
+          }
         java.util.Date taskDate = jDateChooserCreate.getDate();
         if (taskDate == null) {
             System.out.println("No date specified!");
@@ -197,9 +277,13 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
         } else {
             // Start login process
             System.out.println("in create task " + this.getUser_name());
-            createTask(taskName, taskDescription, this.user_id, sDate, newColor);          
+            createTask(taskName, taskDescription, this.user_id, sDate, newColor, selectedStatusInt);          
         }
     }//GEN-LAST:event_jButtonCreate_CreateTaskActionPerformed
+
+    private void status2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_status2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_status2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -237,18 +321,25 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JColorChooser Jcc;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JButton jButtonCreate_CreateTask;
     private javax.swing.JColorChooser jColorChooser1;
     private com.toedter.calendar.JDateChooser jDateChooserCreate;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JColorChooser jcc;
+    private javax.swing.JRadioButton status1;
+    private javax.swing.JRadioButton status2;
+    private javax.swing.JRadioButton status3;
     private javax.swing.JTextField tfTaskDescription_CreateTask;
     private javax.swing.JTextField tfTaskName_CreateTask;
     // End of variables declaration//GEN-END:variables
 
     //color data type converted to a string in this function
-    private void createTask(String taskName, String taskDescription, int user_id, String date, Color newColor) {
+    private void createTask(String taskName, String taskDescription, int user_id, String date, Color newColor, int selectedStatusInt) {
         Connection dbconn= DBConnection.connectDB();
         System.out.println("in dbconn - Create Task");
         System.out.println("passed in date: " + date);
@@ -258,7 +349,7 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
         String dateTimeStr = dateTimeFormatter.format(currentDateTime);
         try {
             PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, task_duedate, color, date_created) values (?,?,?,?,?,?)");
+                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, task_duedate, color, date_created, status) values (?,?,?,?,?,?,?)");
             String sUser_id = Integer.toString(user_id);
             st.setString(1, taskName);
             st.setString(2, taskDescription);
@@ -266,6 +357,7 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
             st.setString(4, date);
             st.setString(5, newColor.toString());
             st.setString(6, dateTimeStr); //fix for date_Created
+            st.setString(7, Integer.toString(selectedStatusInt));
             int res = st.executeUpdate();
             
             System.out.println("got result - Create Task");
