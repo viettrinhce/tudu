@@ -363,7 +363,7 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
         String dateTimeStr = dateTimeFormatter.format(currentDateTime);
         try {
             PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, task_duedate, color, date_created, status, assignto_userid) values (?,?,?,?,?,?,?,?)");
+                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, task_duedate, color, date_created, status) values (?,?,?,?,?,?,?)");
             String sUser_id = Integer.toString(user_id);
             st.setString(1, taskName);
             st.setString(2, taskDescription);
@@ -372,10 +372,8 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
             st.setString(5, newColor.toString());
             st.setString(6, dateTimeStr); //fix for date_Created
             st.setString(7, selectedStatus);
-            st.setInt(8, assignTo_id);
-
             int res = st.executeUpdate();
-            
+
             System.out.println("got result - Create Task");
             
             System.out.println("res: " + res);
@@ -387,6 +385,17 @@ public class CreateTask extends javax.swing.JFrame implements ChangeListener {
                 System.out.println("taskName: " + taskName);
                 System.out.println("taskDescription: " + taskDescription);
                 System.out.println("date: " + date);
+                //query for task id
+                PreparedStatement st2 = (PreparedStatement)
+                dbconn.prepareStatement("insert into task_user(task_id,user_id) select task.task_id ,user.user_id from task, user where task.task_name = ? and user.user_id = ?");
+                st2.setString(1, taskName);
+                st2.setInt(2, assignTo_id);
+                int res2 = st2.executeUpdate();
+                if (res2 ==1)
+                {
+                    System.out.println("Successful query");
+                    System.out.println(st2);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Wrong input data", "Error", JOptionPane.ERROR_MESSAGE);
             }
