@@ -47,9 +47,10 @@ public class Dashboard extends javax.swing.JFrame {
     } 
     
 
-    public void setUser_name_OnDB(String username){
+    public void setUserDetailsFromLogin(String username, int id){
         System.out.println("Inside Dashboard() : user_name : " + username);
         profileToggleBtn.setText(username);
+        setUser_id(id);
     } 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,7 +66,7 @@ public class Dashboard extends javax.swing.JFrame {
         jButtonDashboardCreatetask = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         profileToggleBtn = new javax.swing.JToggleButton();
-        profilePane = new javax.swing.JLayeredPane();
+        profileInternalFrame = new javax.swing.JInternalFrame();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 153, 153));
@@ -93,25 +94,24 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        profileToggleBtn.setText("jToggleButton1");
+        profileToggleBtn.setText("profile");
         profileToggleBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 profileToggleBtnActionPerformed(evt);
             }
         });
 
-        profilePane.setBackground(new java.awt.Color(204, 255, 153));
-        profilePane.setBorder(new javax.swing.border.MatteBorder(null));
+        profileInternalFrame.setVisible(false);
 
-        javax.swing.GroupLayout profilePaneLayout = new javax.swing.GroupLayout(profilePane);
-        profilePane.setLayout(profilePaneLayout);
-        profilePaneLayout.setHorizontalGroup(
-            profilePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 297, Short.MAX_VALUE)
+        javax.swing.GroupLayout profileInternalFrameLayout = new javax.swing.GroupLayout(profileInternalFrame.getContentPane());
+        profileInternalFrame.getContentPane().setLayout(profileInternalFrameLayout);
+        profileInternalFrameLayout.setHorizontalGroup(
+            profileInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        profilePaneLayout.setVerticalGroup(
-            profilePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+        profileInternalFrameLayout.setVerticalGroup(
+            profileInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -120,7 +120,7 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                 .addGap(91, 91, 91)
                 .addComponent(profileToggleBtn)
                 .addContainerGap())
@@ -128,8 +128,8 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonDashboardCreatetask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(40, 40, 40)
-                .addComponent(profilePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(profileInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -141,15 +141,15 @@ public class Dashboard extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(profileToggleBtn)))
                 .addGap(18, 18, 18)
+                .addComponent(jButtonDashboardCreatetask)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(profilePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 46, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonDashboardCreatetask)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(profileInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(192, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -180,6 +180,7 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         //System.out.println("Inside Dashboard() : user_name : " + this.user_name);
         //profileToggleBtn.setText(user_name);
+        viewUserProfile();
     }//GEN-LAST:event_profileToggleBtnActionPerformed
 
     /**
@@ -222,7 +223,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDashboardCreatetask;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLayeredPane profilePane;
+    private javax.swing.JInternalFrame profileInternalFrame;
     private javax.swing.JToggleButton profileToggleBtn;
     // End of variables declaration//GEN-END:variables
 
@@ -244,11 +245,13 @@ public class Dashboard extends javax.swing.JFrame {
         v.setVisible(true);       
     }
     
-//    private void viewUserProfle()
-//    {
-//        ViewUserProfile p = new ViewUserProfile();
-//        p.setUser_id(user_id);
-//        p.setUser_name(user_name);
-//        p.setVisible(true);
-//    }
+    private void viewUserProfile()
+    {
+//        dispose();
+        ViewUserProfile p = new ViewUserProfile();
+        p.setUser_id(user_id);
+        p.setUser_name(user_name);
+        p.setVisible(true);
+        profileInternalFrame.setVisible(true);
+    }
 }

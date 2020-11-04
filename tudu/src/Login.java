@@ -269,7 +269,7 @@ public class Login extends javax.swing.JFrame {
                 d.setUser_name(user_name);
                 d.setTitle("Dashboard");
                 d.setVisible(true);
-                d.setUser_name_OnDB(user_name);
+                d.setUserDetailsFromLogin(user_name, user_id);
                 
             } else {
                 System.out.println("username: " + username);
