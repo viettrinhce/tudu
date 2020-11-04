@@ -1,4 +1,6 @@
 
+import java.awt.Color;
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,6 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -56,6 +60,8 @@ public class ViewTasks extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable_Tasks = new javax.swing.JTable();
@@ -72,6 +78,19 @@ public class ViewTasks extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jButton_tasks_edit = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -279,7 +298,8 @@ public class ViewTasks extends javax.swing.JFrame {
     public void AddRowToJTable(Object[] dataRow){
         DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
         model.addRow(dataRow);
-        
+        changeCellColor(jTable_Tasks,4);
+
     }
     /**
      * @param args the command line arguments
@@ -328,7 +348,9 @@ public class ViewTasks extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable_Tasks;
     private javax.swing.JTextField jTextField_tasks_taskDescription;
     private javax.swing.JTextField jTextField_tasks_taskDuedate;
@@ -442,7 +464,6 @@ public class ViewTasks extends javax.swing.JFrame {
                 st.setString(3, jTextField_tasks_taskDuedate.getText());
             }
             model.setValueAt(jTextField_tasks_taskStatus.getText(), selectedRowIndex, 4);
-
         } else {
             System.out.println("in ViewTasks -- edit fail");
         }
@@ -453,5 +474,36 @@ public class ViewTasks extends javax.swing.JFrame {
         }
     }
 
+    private void changeCellColor(JTable table, int column_index) {
+        table.getColumnModel().getColumn(column_index).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                int st_val = Integer.parseInt(table.getValueAt(row, 4).toString());
+                final Color notStarted = new Color(153,255,153);
+                final Color inProgress = new Color(255,255,102);
+                final Color done = new Color(102,204,255);
+                final Color abandon = new Color(255,153,153);
+                if (st_val == 1) {
+                    c.setBackground(notStarted);
+                } else if(st_val == 2) {
+                    c.setBackground(inProgress);
+                }else if(st_val == 3) {
+                    c.setBackground(done);
+                }else if(st_val == 4) {
+                    c.setBackground(abandon);
+                }
+                return c;
+            }
+        });
+    }
+ 
+
 
 }
+  class MyTableCellRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Color getBackground() {
+            return super.getBackground();
+        }
+  }
