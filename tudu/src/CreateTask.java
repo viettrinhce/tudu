@@ -32,6 +32,7 @@ public class CreateTask extends javax.swing.JFrame {
     private String user_name = "None";
     //Color newColor;
     private int assignTo_id;
+    private int category_id;
     public int getUser_id(){
         return this.user_id;
     }
@@ -54,6 +55,7 @@ public class CreateTask extends javax.swing.JFrame {
     public CreateTask() {
         initComponents();
         FillComboBox();
+        FillComboBox2();
     }
     
     /*
@@ -79,10 +81,9 @@ public class CreateTask extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         tfTaskDescription_CreateTask = new javax.swing.JTextField();
         tfTaskName_CreateTask = new javax.swing.JTextField();
-        jButtonCreate_CreateTask = new javax.swing.JButton();
         jDateChooserCreate = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        category_task_ComboBox = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
@@ -95,6 +96,9 @@ public class CreateTask extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jButtonCreate_CreateTask = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,23 +120,15 @@ public class CreateTask extends javax.swing.JFrame {
             }
         });
 
-        jButtonCreate_CreateTask.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        jButtonCreate_CreateTask.setText("Create");
-        jButtonCreate_CreateTask.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCreate_CreateTaskActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Status");
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        category_task_ComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                category_task_ComboBoxActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("AssignTo");
+        jLabel3.setText("Category");
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 153));
 
@@ -239,9 +235,17 @@ public class CreateTask extends javax.swing.JFrame {
 
         jLabel4.setText("Task name");
 
-        jLabel5.setText("Task name");
+        jLabel5.setText("Task Desc.");
 
         jLabel6.setText("DueDate");
+
+        jLabel7.setText("AssignTo");
+
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -259,15 +263,16 @@ public class CreateTask extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfTaskDescription_CreateTask)
-                            .addComponent(jButtonCreate_CreateTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jDateChooserCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(category_task_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,8 +311,8 @@ public class CreateTask extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -315,21 +320,41 @@ public class CreateTask extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jButtonCreate_CreateTask)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(category_task_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jButtonCreate_CreateTask.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jButtonCreate_CreateTask.setText("Create");
+        jButtonCreate_CreateTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCreate_CreateTaskActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(jButtonCreate_CreateTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jButtonCreate_CreateTask)
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -387,19 +412,19 @@ public class CreateTask extends javax.swing.JFrame {
             // Start login process
             System.out.println("in create task " + this.getUser_name());
             //createTask(taskName, taskDescription, this.user_id, sDate, newColor, selectedStatus);        
-            createTask_User(taskName, taskDescription, this.user_id, sDate, selectedStatus);          
+            createTask_User(taskName, taskDescription, this.user_id, sDate, selectedStatus, this.category_id);          
 
         }
     }//GEN-LAST:event_jButtonCreate_CreateTaskActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-            String str = jComboBox1.getSelectedItem().toString();
+    private void category_task_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_category_task_ComboBoxActionPerformed
+            String str = category_task_ComboBox.getSelectedItem().toString();
             int index = str.indexOf(':');
             str = str.substring(0,index);
-            assignTo_id = Integer.parseInt(str);
+            category_id = Integer.parseInt(str);
             //System.out.println(assignTo_id);
         
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_category_task_ComboBoxActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
         // TODO add your handling code here:
@@ -408,6 +433,10 @@ public class CreateTask extends javax.swing.JFrame {
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
     
     private void FillComboBox()
     {
@@ -422,7 +451,28 @@ public class CreateTask extends javax.swing.JFrame {
             {
                 id = rs.getString(1);
                 username = rs.getString(2);
-                jComboBox1.addItem(id + ": " + username);                
+                jComboBox2.addItem(id + ": " + username);                
+            }
+            
+        }catch (Exception ex){
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void FillComboBox2()
+    {
+        Connection dbconn= DBConnection.connectDB();
+        try{
+            String name, id;
+            PreparedStatement st = (PreparedStatement)
+                dbconn.prepareStatement("Select category_id, name from category");
+            ResultSet rs = st.executeQuery();
+            
+            while(rs.next())
+            {
+                id = rs.getString(1);
+                name = rs.getString(2);
+                category_task_ComboBox.addItem(id + ": " + name);                
             }
             
         }catch (Exception ex){
@@ -467,9 +517,10 @@ public class CreateTask extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> category_task_ComboBox;
     private javax.swing.JButton jButtonCreate_CreateTask;
     private javax.swing.JColorChooser jColorChooser1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private com.toedter.calendar.JDateChooser jDateChooserCreate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -477,6 +528,7 @@ public class CreateTask extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -491,7 +543,7 @@ public class CreateTask extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     //color data type converted to a string in this function
-    private void createTask_User(String taskName, String taskDescription, int user_id, String date, String selectedStatus) {
+    private void createTask_User(String taskName, String taskDescription, int user_id, String date, String selectedStatus, int category_id) {
         Connection dbconn= DBConnection.connectDB();
         System.out.println("in dbconn - Create Task");
         System.out.println("passed in date: " + date);
@@ -501,7 +553,7 @@ public class CreateTask extends javax.swing.JFrame {
         String dateTimeStr = dateTimeFormatter.format(currentDateTime);
         try {
             PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, task_duedate, date_created, status) values (?,?,?,?,?,?)");
+                dbconn.prepareStatement("Insert into task(task_name, task_description, user_id, task_duedate, date_created, status, category_id) values (?,?,?,?,?,?,?)");
             String sUser_id = Integer.toString(user_id);
             st.setString(1, taskName);
             st.setString(2, taskDescription);
@@ -510,6 +562,9 @@ public class CreateTask extends javax.swing.JFrame {
             //st.setString(5, newColor.toString());
             st.setString(5, dateTimeStr); //fix for date_Created
             st.setString(6, selectedStatus);
+            
+            String sCategory_id = Integer.toString(category_id);
+            st.setString(7, sCategory_id);
             int res = st.executeUpdate();
 
             System.out.println("got result - Create Task");
