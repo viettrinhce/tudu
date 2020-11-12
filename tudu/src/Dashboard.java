@@ -1,7 +1,13 @@
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /*
@@ -20,7 +26,9 @@ public class Dashboard extends javax.swing.JFrame {
     private String user_name = "None";
     private JButton button;
     private JTextField textField;
-
+    private int teamID = 0;
+    
+    
     /**
      * Creates new form Dashboard
      */
@@ -51,6 +59,7 @@ public class Dashboard extends javax.swing.JFrame {
         System.out.println("Inside Dashboard() : user_name : " + username);
         profileToggleBtn.setText(username);
         setUser_id(id);
+        FillComboBox();
     } 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,6 +76,9 @@ public class Dashboard extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         profileToggleBtn = new javax.swing.JToggleButton();
         profileInternalFrame = new javax.swing.JInternalFrame();
+        jLabel2 = new javax.swing.JLabel();
+        chooseTeamLabel = new javax.swing.JLabel();
+        chooseTeamComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 153, 153));
@@ -114,23 +126,39 @@ public class Dashboard extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        chooseTeamLabel.setText("Choose Project / Team");
+
+        chooseTeamComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chooseTeamComboBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(91, 91, 91)
                 .addComponent(profileToggleBtn)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonDashboardCreatetask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(85, 85, 85)
-                .addComponent(profileInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonDashboardCreatetask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(85, 85, 85)
+                        .addComponent(profileInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chooseTeamLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(chooseTeamComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(244, 244, 244))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,7 +177,13 @@ public class Dashboard extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(profileInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chooseTeamComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chooseTeamLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addContainerGap(130, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -183,6 +217,48 @@ public class Dashboard extends javax.swing.JFrame {
         viewUserProfile();
     }//GEN-LAST:event_profileToggleBtnActionPerformed
 
+    private void chooseTeamComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseTeamComboBoxActionPerformed
+        String str = chooseTeamComboBox.getSelectedItem().toString();
+        int index = str.indexOf(':');
+        str = str.substring(0,index);
+        teamID = Integer.parseInt(str);
+        Connection dbconn= DBConnection.connectDB();
+        try {
+            PreparedStatement st = (PreparedStatement)
+                dbconn.prepareStatement("Insert into user_team(user_id, team_id) values (?,?)");
+            System.out.println("user_id: " + user_id);
+            String sUser_id = Integer.toString(user_id);
+            String sTeam_id = Integer.toString(teamID);
+            st.setString(1, sUser_id);
+            st.setString(2, sTeam_id);
+            int res = st.executeUpdate();
+            System.out.println("got result - Join Team");
+            System.out.println("res: " + res);
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_chooseTeamComboBoxActionPerformed
+
+    private void FillComboBox()
+    {
+        Connection dbconn= DBConnection.connectDB();
+        try{
+            String username, id;
+            PreparedStatement st = (PreparedStatement)
+                dbconn.prepareStatement("Select team_id,team_name from team");
+            ResultSet rs = st.executeQuery();
+            
+            while(rs.next())
+            {
+                id = rs.getString(1);
+                username = rs.getString(2);
+                chooseTeamComboBox.addItem(id + ": " + username);                
+            }
+            
+        }catch (Exception ex){
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -214,14 +290,18 @@ public class Dashboard extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Dashboard().setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> chooseTeamComboBox;
+    private javax.swing.JLabel chooseTeamLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonDashboardCreatetask;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JInternalFrame profileInternalFrame;
     private javax.swing.JToggleButton profileToggleBtn;
