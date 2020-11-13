@@ -381,14 +381,14 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void deleteAcctBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAcctBtnActionPerformed
         // TODO add your handling code here:
-//        deleteAcct();
+       deleteAcct();
     }//GEN-LAST:event_deleteAcctBtnActionPerformed
 
     private void profileToggleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileToggleBtnActionPerformed
         // TODO add your handling code here:
         //System.out.println("Inside Dashboard() : user_name : " + this.user_name);
         //profileToggleBtn.setText(user_name);
-        viewUserProfile();
+        //viewUserProfile();
     }//GEN-LAST:event_profileToggleBtnActionPerformed
 
     private void createTeamBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTeamBtnActionPerformed
@@ -597,5 +597,35 @@ public class Dashboard extends javax.swing.JFrame {
         e.populateList_Category();
         e.setVisible(true); 
         e.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void deleteAcct() 
+    {
+        Connection dbconn= DBConnection.connectDB();
+
+        int deleteAcctChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete your user account?", "Delete account?", JOptionPane.YES_NO_OPTION);
+        System.out.println("deleteAcctChoice: " + Integer.toString(deleteAcctChoice));
+        if (deleteAcctChoice == 0)
+        {
+            try{
+                PreparedStatement st = (PreparedStatement)
+            dbconn.prepareStatement("DELETE FROM user WHERE (user_id = (?) )");
+            String sUser_id = Integer.toString(user_id);
+            st.setString(1, sUser_id);
+            System.out.println("sUserid: " + sUser_id);
+            int res = st.executeUpdate();
+            System.out.println("res: " + res);
+            //delete
+            //DELETE FROM `tudu`.`user` WHERE (`user_id` = '4');
+            }
+            catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        }
+        else
+        {
+            //do nothing
+        }
     }
 }

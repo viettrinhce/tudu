@@ -164,6 +164,12 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
             }
         });
 
+        jTextField_Category_Team.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_Category_TeamActionPerformed(evt);
+            }
+        });
+
         jButton_Category_Edit.setText("Edit Category");
         jButton_Category_Edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -330,6 +336,10 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
         model.removeRow(selectedRowIndex);
     }//GEN-LAST:event_jButton_Category_DeleteActionPerformed
 
+    private void jTextField_Category_TeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_Category_TeamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_Category_TeamActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -440,7 +450,7 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
             System.out.println("category_id = " + u);
             if (u != null){
                 PreparedStatement st2 = (PreparedStatement)
-                dbconn.prepareStatement("Select * from category where category_id = ?");
+                dbconn.prepareStatement("select category.category_id, category.name, team.team_name FROM category INNER JOIN team ON team.team_id = category.team_category_id WHERE category_id = ?;");
                 st2.setString(1, u);
                
                 ResultSet rs2 = st2.executeQuery();
@@ -540,10 +550,16 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
 
         try {
         PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("UPDATE category SET name = ?, team_category_id = ? where category_id=?");
-        st.setString(1, jTextField_Category_Edit.getText());
-        st.setString(2, jTextField_Category_Team.getText());
-        st.setString(3, selected_category_id);
+                dbconn.prepareStatement("Update\n" +
+"Category as C\n" +
+"INNER JOIN (\n" +
+"SELECT team_id\n" +
+"FROM team\n" +
+"WHERE team_name = ? )\n" +
+"AS T on C.team_category_id = T.team_id\n" +
+"SET C.name = ?, C.team_category_id = T.team_id;");
+        st.setString(1, jTextField_Category_Team.getText());
+        st.setString(2, jTextField_Category_Edit.getText());
 
         int rs = st.executeUpdate();
         if (rs == 1){
