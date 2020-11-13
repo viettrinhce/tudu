@@ -1,4 +1,6 @@
 
+import java.awt.Color;
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,6 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -56,6 +60,8 @@ public class ViewTasks extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable_Tasks = new javax.swing.JTable();
@@ -73,6 +79,19 @@ public class ViewTasks extends javax.swing.JFrame {
         jButton_tasks_edit = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 102));
@@ -82,11 +101,11 @@ public class ViewTasks extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Task_id", "Name", "Description", "Due Date", "Status"
+                "Task_id", "Name", "Description", "Due Date", "Status", "Category"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -279,7 +298,8 @@ public class ViewTasks extends javax.swing.JFrame {
     public void AddRowToJTable(Object[] dataRow){
         DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
         model.addRow(dataRow);
-        
+        changeCellColor(jTable_Tasks,4);
+
     }
     /**
      * @param args the command line arguments
@@ -328,7 +348,9 @@ public class ViewTasks extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable_Tasks;
     private javax.swing.JTextField jTextField_tasks_taskDescription;
     private javax.swing.JTextField jTextField_tasks_taskDuedate;
@@ -342,7 +364,7 @@ public class ViewTasks extends javax.swing.JFrame {
         DefaultListModel dmTaskDesc = new DefaultListModel();
         DefaultListModel dmTaskDueDate = new DefaultListModel();
         DefaultListModel dmTaskStatus = new DefaultListModel();
-        
+        DefaultListModel dmTaskCategory = new DefaultListModel();
         try {
         String u;
         PreparedStatement st = (PreparedStatement)
@@ -364,12 +386,20 @@ public class ViewTasks extends javax.swing.JFrame {
             
             u = rs.getString(7);
             dmTaskStatus.addElement(u);
+
+            u = rs.getString(8);
+            String CatName = getCategoryNameFromID(u);
+            System.out.println("type of CatName: " + CatName.getClass().getName());
+            dmTaskCategory.addElement(CatName);
+
             AddRowToJTable(new Object[]{
                             rs.getString(1),
                             rs.getString(2),
                             rs.getString(3),
                             rs.getString(5),
-                            rs.getString(7)
+                            rs.getString(7),
+                            CatName
+                            
                             });
         }
         rs.close();
@@ -442,7 +472,6 @@ public class ViewTasks extends javax.swing.JFrame {
                 st.setString(3, jTextField_tasks_taskDuedate.getText());
             }
             model.setValueAt(jTextField_tasks_taskStatus.getText(), selectedRowIndex, 4);
-
         } else {
             System.out.println("in ViewTasks -- edit fail");
         }
@@ -453,5 +482,58 @@ public class ViewTasks extends javax.swing.JFrame {
         }
     }
 
+    private void changeCellColor(JTable table, int column_index) {
+        table.getColumnModel().getColumn(column_index).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                int st_val = Integer.parseInt(table.getValueAt(row, 4).toString());
+                final Color notStarted = new Color(153,255,153);
+                final Color inProgress = new Color(255,255,102);
+                final Color done = new Color(102,204,255);
+                final Color abandon = new Color(255,153,153);
+                if (st_val == 1) {
+                    c.setBackground(notStarted);
+                } else if(st_val == 2) {
+                    c.setBackground(inProgress);
+                }else if(st_val == 3) {
+                    c.setBackground(done);
+                }else if(st_val == 4) {
+                    c.setBackground(abandon);
+                }
+                return c;
+            }
+        });
+    }
+
+    private String getCategoryNameFromID(String u) {
+        Connection dbconn= DBConnection.connectDB();
+        try {
+                PreparedStatement st = (PreparedStatement)
+                    dbconn.prepareStatement("Select name from category WHERE category_id = ?");
+                st.setString(1, u);
+                ResultSet res = st.executeQuery();
+                if (res.next())
+                {
+                     String name = (String)res.getObject(1);
+                    System.out.println("getCategoryNameFromID: " + name);
+                    return(name);
+                }
+        
+        }
+        catch (Exception ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return("category not found");
+    }
+        
+ 
+
 
 }
+  class MyTableCellRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Color getBackground() {
+            return super.getBackground();
+        }
+  }
