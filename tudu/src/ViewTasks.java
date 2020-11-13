@@ -101,11 +101,11 @@ public class ViewTasks extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Task_id", "Name", "Description", "Due Date", "Status"
+                "Task_id", "Name", "Description", "Due Date", "Status", "Category"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -364,7 +364,7 @@ public class ViewTasks extends javax.swing.JFrame {
         DefaultListModel dmTaskDesc = new DefaultListModel();
         DefaultListModel dmTaskDueDate = new DefaultListModel();
         DefaultListModel dmTaskStatus = new DefaultListModel();
-        
+        DefaultListModel dmTaskCategory = new DefaultListModel();
         try {
         String u;
         PreparedStatement st = (PreparedStatement)
@@ -386,12 +386,20 @@ public class ViewTasks extends javax.swing.JFrame {
             
             u = rs.getString(7);
             dmTaskStatus.addElement(u);
+
+            u = rs.getString(8);
+            String CatName = getCategoryNameFromID(u);
+            System.out.println("type of CatName: " + CatName.getClass().getName());
+            dmTaskCategory.addElement(CatName);
+
             AddRowToJTable(new Object[]{
                             rs.getString(1),
                             rs.getString(2),
                             rs.getString(3),
                             rs.getString(5),
-                            rs.getString(7)
+                            rs.getString(7),
+                            CatName
+                            
                             });
         }
         rs.close();
@@ -497,6 +505,28 @@ public class ViewTasks extends javax.swing.JFrame {
             }
         });
     }
+
+    private String getCategoryNameFromID(String u) {
+        Connection dbconn= DBConnection.connectDB();
+        try {
+                PreparedStatement st = (PreparedStatement)
+                    dbconn.prepareStatement("Select name from category WHERE category_id = ?");
+                st.setString(1, u);
+                ResultSet res = st.executeQuery();
+                if (res.next())
+                {
+                     String name = (String)res.getObject(1);
+                    System.out.println("getCategoryNameFromID: " + name);
+                    return(name);
+                }
+        
+        }
+        catch (Exception ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return("category not found");
+    }
+        
  
 
 
