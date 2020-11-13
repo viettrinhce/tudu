@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -309,12 +310,13 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void chooseTeamComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseTeamComboBoxActionPerformed
-        String str = chooseTeamComboBox.getSelectedItem().toString();
-        int index = str.indexOf(':');
-        str = str.substring(0,index);
-        teamID = Integer.parseInt(str);
-        Connection dbconn= DBConnection.connectDB();
+
         try {
+            String str = chooseTeamComboBox.getSelectedItem().toString();
+            int index = str.indexOf(':');
+            str = str.substring(0,index);
+            teamID = Integer.parseInt(str);
+            Connection dbconn= DBConnection.connectDB();
             PreparedStatement st = (PreparedStatement)
                 dbconn.prepareStatement("Insert into user_team(user_id, team_id) values (?,?)");
             System.out.println("user_id: " + user_id);
@@ -333,6 +335,8 @@ public class Dashboard extends javax.swing.JFrame {
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         // TODO add your handling code here:
         dispose();
+        Login l = new Login();
+        l.setVisible(true);
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void deleteAcctBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAcctBtnActionPerformed
@@ -359,7 +363,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         }
         // TODO add your handling code here:
-        
+        chooseTeamComboBox.removeAllItems();
+        FillComboBox();
     }//GEN-LAST:event_createTeamBtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -382,14 +387,18 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void chooseCategoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseCategoryComboBoxActionPerformed
         // TODO add your handling code here:
-        String str = chooseCategoryComboBox.getSelectedItem().toString();
-        int index = str.indexOf(':');
-        str = str.substring(0,index);
-        teamID = Integer.parseInt(str);
+        try {
+            String str = chooseCategoryComboBox.getSelectedItem().toString();
+            int index = str.indexOf(':');
+            str = str.substring(0,index);
+            teamID = Integer.parseInt(str);
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_chooseCategoryComboBoxActionPerformed
 
     private void editCategoryTeamsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCategoryTeamsActionPerformed
-
+        userEditCategoryAndTeam();
     }//GEN-LAST:event_editCategoryTeamsActionPerformed
 
     private void FillComboBox()
@@ -400,7 +409,6 @@ public class Dashboard extends javax.swing.JFrame {
             PreparedStatement st = (PreparedStatement)
                 dbconn.prepareStatement("Select team_id,team_name from team");
             ResultSet rs = st.executeQuery();
-            
             while(rs.next())
             {
                 id = rs.getString(1);
@@ -484,7 +492,9 @@ public class Dashboard extends javax.swing.JFrame {
         v.setUser_name(user_name);
         v.setTitle("View Tasks");
         v.populateList();
-        v.setVisible(true);       
+        v.setVisible(true);      
+        v.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
     }
     
     private void viewUserProfile()
@@ -533,5 +543,16 @@ public class Dashboard extends javax.swing.JFrame {
         catch (Exception ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void userEditCategoryAndTeam() {
+        EditCategoryAndTeam e = new EditCategoryAndTeam();
+        e.setUser_id(user_id);
+        e.setUser_name(user_name);
+        e.setTitle("Edit Category and Team");
+        e.populateList_Team();
+        e.populateList_Category();
+        e.setVisible(true); 
+        e.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 }
