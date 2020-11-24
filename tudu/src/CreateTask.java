@@ -614,6 +614,20 @@ public class CreateTask extends javax.swing.JFrame {
             String sCategory_id = Integer.toString(category_id);
             st.setString(7, sCategory_id);
             st.setString(8, srecurrent_status);
+            
+            switch(category_id){
+                case 1:
+                    int res = st.executeUpdate();
+                    break;
+                case 7:
+                    recurrent_status = 2;
+                    break;
+                case 28:
+                    recurrent_status = 3;
+                    break;
+                default:
+                    recurrent_status = 9001;
+            }
             int res = st.executeUpdate();
 
             System.out.println("got result - Create Task");
@@ -638,6 +652,15 @@ public class CreateTask extends javax.swing.JFrame {
                     System.out.println("Successful query");
                     System.out.println(st2);
                 }
+                
+                Dashboard d = new Dashboard();
+                d.setUser_id(user_id);
+                d.setUser_name(user_name);
+                d.setTitle("Dashboard");
+                d.setVisible(true);
+                d.populateList();
+                d.setUserDetailsFromLogin(user_name, user_id);
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Wrong input data", "Error", JOptionPane.ERROR_MESSAGE);
             }

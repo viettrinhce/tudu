@@ -3,11 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Nicholas/Documents/GitHub/tudu/tudu/src/ViewUserProfile.java</file>
-            <file>file:/C:/Users/Nicholas/Documents/GitHub/tudu/tudu/src/Login.java</file>
-            <file>file:/C:/Users/Nicholas/Documents/GitHub/tudu/tudu/src/ViewTasks.java</file>
-            <file>file:/C:/Users/Nicholas/Documents/GitHub/tudu/tudu/src/CreateTask.java</file>
-            <file>file:/C:/Users/Nicholas/Documents/GitHub/tudu/tudu/src/Dashboard.java</file>
+            <file>file:/C:/Users/viett/tudu/tudu/src/ViewTasks.java</file>
+            <file>file:/C:/Users/viett/tudu/tudu/src/DBConnection.java</file>
+            <file>file:/C:/Users/viett/tudu/tudu/src/SignUp.java</file>
+            <file>file:/C:/Users/viett/tudu/tudu/src/tuduDateTime/tuduDateTime.java</file>
+            <file>file:/C:/Users/viett/tudu/tudu/src/Login.java</file>
+            <file>file:/C:/Users/viett/tudu/tudu/src/EditCategoryAndTeam.java</file>
+            <file>file:/C:/Users/viett/tudu/tudu/src/Dashboard.java</file>
+            <file>file:/C:/Users/viett/tudu/tudu/src/CreateTask.java</file>
+            <file>file:/C:/Users/viett/tudu/tudu/src/ViewUserProfile.java</file>
         </group>
     </open-files>
 </project-private>

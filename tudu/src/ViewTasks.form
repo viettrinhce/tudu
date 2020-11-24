@@ -46,7 +46,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jPanel1" pref="909" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -71,11 +74,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel5" max="32767" attributes="0"/>
                       <Component id="jLabel6" max="32767" attributes="0"/>
-                      <Component id="jLabel7" alignment="0" pref="659" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="593" max="32767" attributes="0"/>
-                          <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jLabel7" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="239" max="-2" attributes="0"/>
               </Group>
@@ -84,15 +83,15 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace pref="252" max="32767" attributes="0"/>
-                              <Component id="jTextField_tasks_taskname" max="32767" attributes="0"/>
+                              <Component id="jTextField_tasks_taskname" pref="61" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <EmptySpace pref="128" max="32767" attributes="0"/>
-                              <Component id="jTextField_tasks_taskDescription" pref="185" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jTextField_tasks_taskDescription" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace pref="128" max="32767" attributes="0"/>
-                              <Component id="jTextField_tasks_taskDuedate" pref="185" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jTextField_tasks_taskDuedate" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
@@ -100,12 +99,12 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButton_tasks_edit" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="67" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel8" pref="91" max="32767" attributes="0"/>
+                                      <Component id="jLabel8" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -166,10 +165,7 @@
                               <Component id="jTextField_tasks_taskDuedate" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jDateChooser_tasks_duedate" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jDateChooser_tasks_duedate" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="recurrentStatusComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -314,11 +310,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_tasks_taskDuedateActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="New DueDate"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton_tasks_edit">
           <Properties>

@@ -30,7 +30,7 @@ public class ViewTasks extends javax.swing.JFrame {
     private int user_id = 0;
     private String user_name = "None";
     private int recurrent_status = 9001;
-        
+    public Dashboard d = null;
     public int getUser_id(){
         return this.user_id;
     }
@@ -75,7 +75,6 @@ public class ViewTasks extends javax.swing.JFrame {
         jButton_tasks_deleteButton = new javax.swing.JButton();
         jDateChooser_tasks_duedate = new com.toedter.calendar.JDateChooser();
         jTextField_tasks_taskDuedate = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
         jButton_tasks_edit = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         recurrentStatusComboBox = new javax.swing.JComboBox<>();
@@ -159,8 +158,6 @@ public class ViewTasks extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("New DueDate");
-
         jButton_tasks_edit.setText("Edit");
         jButton_tasks_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,33 +186,30 @@ public class ViewTasks extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 593, Short.MAX_VALUE)
-                        .addComponent(jLabel9)))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(239, 239, 239))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addContainerGap(252, Short.MAX_VALUE)
-                            .addComponent(jTextField_tasks_taskname))
+                            .addComponent(jTextField_tasks_taskname, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap(128, Short.MAX_VALUE)
-                            .addComponent(jTextField_tasks_taskDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField_tasks_taskDescription))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap(128, Short.MAX_VALUE)
-                            .addComponent(jTextField_tasks_taskDuedate, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)))
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField_tasks_taskDuedate)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jButton_tasks_edit)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(33, 33, 33)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel1)
                                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -259,9 +253,7 @@ public class ViewTasks extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(jTextField_tasks_taskDuedate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(11, 11, 11)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jDateChooser_tasks_duedate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
+                        .addComponent(jDateChooser_tasks_duedate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(recurrentStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,7 +273,9 @@ public class ViewTasks extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 909, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,6 +326,8 @@ public class ViewTasks extends javax.swing.JFrame {
         System.out.println("selectedRowIndex = " + Integer.toString(selectedRowIndex));
         String selected_task_id = model.getValueAt(selectedRowIndex, 0).toString();
         editTask(selected_task_id);
+        d.ClearRowsJTable();
+        d.populateList();
     }//GEN-LAST:event_jButton_tasks_editActionPerformed
 
     private void recurrentStatusComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recurrentStatusComboBoxActionPerformed
@@ -358,6 +354,14 @@ public class ViewTasks extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_recurrentStatusComboBoxActionPerformed
     
+    public void ClearRowsJTable(){
+        DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
+        int rowCount = model.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+    }
     
     public void AddRowToJTable(Object[] dataRow){
         DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
@@ -411,7 +415,6 @@ public class ViewTasks extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane5;
@@ -525,7 +528,6 @@ public class ViewTasks extends javax.swing.JFrame {
         int rs = st.executeUpdate();
         if (rs == 1){
             System.out.println("in ViewTasks -- edit successful");
-            
             // set value of the row
             DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
             int selectedRowIndex = jTable_Tasks.getSelectedRow();

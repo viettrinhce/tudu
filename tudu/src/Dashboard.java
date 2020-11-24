@@ -16,6 +16,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.util.Timer; 
+import java.util.TimerTask; 
+import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -34,8 +41,12 @@ public class Dashboard extends javax.swing.JFrame {
     private JButton button;
     private JTextField textField;
     private int teamID = 0;
-    
-    
+    private Timer timer = null;
+    private TimerTask task = null;
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private int current_alert = 0;
+
     /**
      * Creates new form Dashboard
      */
@@ -43,6 +54,33 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
         setTitle("JButtonTextChange Test");
+        this.timer = new Timer();
+        this.task = new TimerTask()
+        {
+            public void run(){
+                try{
+                    DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
+                    int rowCount = model.getRowCount();
+                    //Remove rows one by one from the end of the table
+                    int count_alert = 0;
+                    for (int i = rowCount - 1; i >= 0; i--) {
+                        String str1 = model.getValueAt(i, 1).toString();
+                        Date date = sdf.parse(str1);
+                        long millis = Math.abs(date.getTime() - System.currentTimeMillis());
+                        if (millis <= 2*24*60*60*1000){
+                            count_alert += 1;
+                        }
+                    }
+                    if (count_alert > current_alert) {
+                        current_alert = count_alert;
+                        JOptionPane.showMessageDialog(null, "In coming due_date, you are late", "Warning",JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                        Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                   }
+            }
+        };
+        timer.scheduleAtFixedRate(task,0,1000);
     }
     
     public int getUser_id(){
@@ -74,6 +112,15 @@ public class Dashboard extends javax.swing.JFrame {
         model.addRow(dataRow);
         changeCellColor(jTable_Tasks,3);
 
+    }
+    
+    public void ClearRowsJTable(){
+        DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
+        int rowCount = model.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
     }
     
     private void changeCellColor(JTable table, int column_index) {
@@ -452,6 +499,8 @@ public class Dashboard extends javax.swing.JFrame {
         dispose();
         Login l = new Login();
         l.setVisible(true);
+        this.timer.cancel();
+        this.task.cancel();
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void deleteAcctBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAcctBtnActionPerformed
@@ -566,12 +615,10 @@ public class Dashboard extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Dashboard().setVisible(true);
-                
             }
         });
     }
@@ -607,6 +654,7 @@ public class Dashboard extends javax.swing.JFrame {
         t.setUser_name(user_name);
         t.setTitle("Create Task");
         t.setVisible(true);
+        this.dispose();
     }
     
     private void userViewTask()
@@ -618,7 +666,7 @@ public class Dashboard extends javax.swing.JFrame {
         v.populateList();
         v.setVisible(true);      
         v.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        v.d = this;
     }
     
     private void viewUserProfile()
@@ -727,23 +775,28 @@ public class Dashboard extends javax.swing.JFrame {
         ResultSet rs = st.executeQuery();
         while(rs.next())
         {
-            u = rs.getString(2);
-            dmTaskName.addElement(u);
-            
-            u = rs.getString(5);
-            dmTaskDueDate.addElement(u);
-            
-            u = rs.getString(7);
-            dmTaskStatus.addElement(u);
-
+           
             u = rs.getString(10);
-            dmRecurrentStatus.addElement(u);
-
+            dmTaskStatus.addElement(u);
+            System.out.println("due-date" +rs.getString(5));
+            switch(u) {
+                case "1":
+                    u = "Daily";
+                    break;
+                case "2":
+                    u = "Weekly";
+                  break;
+                case "3":
+                    u = "Monthly";
+                    break;
+                default:
+                    u = "One time only bruh";
+            }
             AddRowToJTable(new Object[]{
                             rs.getString(2),
                             rs.getString(5),
-                            rs.getString(7),
-                            rs.getString(10)
+                            u,
+                            rs.getString(7)
                             });
         }
         rs.close();
@@ -760,3 +813,4 @@ class MyTableCellRenderer2 extends DefaultTableCellRenderer {
             return super.getBackground();
         }
   }
+
