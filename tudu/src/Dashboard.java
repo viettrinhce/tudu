@@ -1,4 +1,6 @@
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -6,10 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -62,6 +68,39 @@ public class Dashboard extends javax.swing.JFrame {
         setUser_id(id);
         FillComboBox();
     } 
+    
+    public void AddRowToJTable(Object[] dataRow){
+        DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
+        model.addRow(dataRow);
+        changeCellColor(jTable_Tasks,3);
+
+    }
+    
+    private void changeCellColor(JTable table, int column_index) {
+        table.getColumnModel().getColumn(column_index).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                int st_val = Integer.parseInt(table.getValueAt(row, 3).toString());
+                System.out.println(st_val);
+                final Color notStarted = new Color(153,255,153);
+                final Color inProgress = new Color(255,255,102);
+                final Color done = new Color(102,204,255);
+                final Color abandon = new Color(255,153,153);
+                if (st_val == 1) {
+                    c.setBackground(notStarted);
+                } else if(st_val == 2) {
+                    c.setBackground(inProgress);
+                }else if(st_val == 3) {
+                    c.setBackground(done);
+                }else if(st_val == 4) {
+                    c.setBackground(abandon);
+                }
+                return c;
+            }
+        });
+    }
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,6 +130,8 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jButtonDashboardCreatetask = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable_Tasks = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 153, 153));
@@ -227,11 +268,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(editCategoryTeams, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField_categoryName_DB, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-                        .addComponent(chooseTeamComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(chooseCategoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(newTeamNameField)))
+                    .addComponent(jTextField_categoryName_DB)
+                    .addComponent(chooseTeamComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(chooseCategoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(newTeamNameField))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -306,7 +346,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,15 +365,50 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTable_Tasks.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Due Date", "Recurrent", "Status"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable_Tasks.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_TasksMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(jTable_Tasks);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -441,6 +516,10 @@ public class Dashboard extends javax.swing.JFrame {
         userEditCategoryAndTeam();
     }//GEN-LAST:event_editCategoryTeamsActionPerformed
 
+    private void jTable_TasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_TasksMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable_TasksMouseClicked
+
     private void FillComboBox()
     {
         Connection dbconn= DBConnection.connectDB();
@@ -513,6 +592,8 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable jTable_Tasks;
     private javax.swing.JTextField jTextField_categoryName_DB;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JTextField newTeamNameField;
@@ -627,5 +708,55 @@ public class Dashboard extends javax.swing.JFrame {
         {
             //do nothing
         }
+        
+    }
+    protected void populateList()
+    {
+        Connection dbconn= DBConnection.connectDB();
+        DefaultListModel dmTaskName = new DefaultListModel();
+        DefaultListModel dmTaskDueDate = new DefaultListModel();
+        DefaultListModel dmTaskStatus = new DefaultListModel();
+        DefaultListModel dmRecurrentStatus = new DefaultListModel();
+        try {
+        String u;
+        PreparedStatement st = (PreparedStatement)
+                dbconn.prepareStatement("Select * from task where user_id = ?");
+        String user_idStr = Integer.toString(this.user_id);
+        
+        st.setString(1, user_idStr);
+        ResultSet rs = st.executeQuery();
+        while(rs.next())
+        {
+            u = rs.getString(2);
+            dmTaskName.addElement(u);
+            
+            u = rs.getString(5);
+            dmTaskDueDate.addElement(u);
+            
+            u = rs.getString(7);
+            dmTaskStatus.addElement(u);
+
+            u = rs.getString(10);
+            dmRecurrentStatus.addElement(u);
+
+            AddRowToJTable(new Object[]{
+                            rs.getString(2),
+                            rs.getString(5),
+                            rs.getString(7),
+                            rs.getString(10)
+                            });
+        }
+        rs.close();
+        st.close();
+        } catch (Exception ex) {
+             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
+
+class MyTableCellRenderer2 extends DefaultTableCellRenderer {
+        @Override
+        public Color getBackground() {
+            return super.getBackground();
+        }
+  }

@@ -29,7 +29,7 @@ public class ViewTasks extends javax.swing.JFrame {
      */
     private int user_id = 0;
     private String user_name = "None";
-    
+    private int recurrent_status = 9001;
         
     public int getUser_id(){
         return this.user_id;
@@ -78,6 +78,8 @@ public class ViewTasks extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jButton_tasks_edit = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
+        recurrentStatusComboBox = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -169,31 +171,65 @@ public class ViewTasks extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel10.setText("ViewTask");
 
+        recurrentStatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" ,"Daily", "Weekly", "Monthly",}));
+        recurrentStatusComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recurrentStatusComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Repeating");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel9))
+                        .addGap(0, 593, Short.MAX_VALUE)
+                        .addComponent(jLabel9)))
+                .addGap(239, 239, 239))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap(252, Short.MAX_VALUE)
+                            .addComponent(jTextField_tasks_taskname))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap(128, Short.MAX_VALUE)
+                            .addComponent(jTextField_tasks_taskDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap(128, Short.MAX_VALUE)
+                            .addComponent(jTextField_tasks_taskDuedate, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton_tasks_edit)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton_tasks_deleteButton)
-                    .addComponent(jTextField_tasks_taskname)
-                    .addComponent(jTextField_tasks_taskDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                    .addComponent(jTextField_tasks_taskStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                    .addComponent(jDateChooser_tasks_duedate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField_tasks_taskDuedate, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton_tasks_edit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(77, 77, 77)
+                                .addComponent(jDateChooser_tasks_duedate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton_tasks_deleteButton)
+                                    .addComponent(jTextField_tasks_taskStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                    .addComponent(recurrentStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -207,7 +243,7 @@ public class ViewTasks extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -226,6 +262,10 @@ public class ViewTasks extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jDateChooser_tasks_duedate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(recurrentStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -234,7 +274,7 @@ public class ViewTasks extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton_tasks_deleteButton)
                             .addComponent(jButton_tasks_edit))))
-                .addGap(38, 38, 38))
+                .addGap(46, 46, 46))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -293,6 +333,30 @@ public class ViewTasks extends javax.swing.JFrame {
         String selected_task_id = model.getValueAt(selectedRowIndex, 0).toString();
         editTask(selected_task_id);
     }//GEN-LAST:event_jButton_tasks_editActionPerformed
+
+    private void recurrentStatusComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recurrentStatusComboBoxActionPerformed
+    try {
+        String str = recurrentStatusComboBox.getSelectedItem().toString();
+            switch(str){
+                case "Daily":
+                    recurrent_status = 1;
+                    break;
+                case "Weekly":
+                    recurrent_status = 2;
+                    break;
+                case "Monthly":
+                    recurrent_status = 3;
+                    break;
+                default:
+                    recurrent_status = 9001;
+            }
+            System.out.println("case: " + Integer.toString(recurrent_status));
+            System.out.println("str: " + str);
+
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_recurrentStatusComboBoxActionPerformed
     
     
     public void AddRowToJTable(Object[] dataRow){
@@ -341,6 +405,7 @@ public class ViewTasks extends javax.swing.JFrame {
     private javax.swing.JButton jButton_tasks_deleteButton;
     private javax.swing.JButton jButton_tasks_edit;
     private com.toedter.calendar.JDateChooser jDateChooser_tasks_duedate;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -356,6 +421,7 @@ public class ViewTasks extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_tasks_taskDuedate;
     private javax.swing.JTextField jTextField_tasks_taskStatus;
     private javax.swing.JTextField jTextField_tasks_taskname;
+    private javax.swing.JComboBox<String> recurrentStatusComboBox;
     // End of variables declaration//GEN-END:variables
     protected void populateList()
     {
@@ -439,7 +505,7 @@ public class ViewTasks extends javax.swing.JFrame {
         try {
         PreparedStatement st = (PreparedStatement)
                 dbconn.prepareStatement("UPDATE task SET task_name = ?, task_description = ?,"
-                        + " task_duedate = ?, status = ? where task_id = ?;");
+                        + " task_duedate = ?, status = ?, recurrent_status = ? where task_id = ?;");
         st.setString(1, jTextField_tasks_taskname.getText());
         st.setString(2, jTextField_tasks_taskDescription.getText());
         
@@ -452,9 +518,10 @@ public class ViewTasks extends javax.swing.JFrame {
         } else {
             st.setString(3, jTextField_tasks_taskDuedate.getText());
         }
-        
+        String srecurrent_status = Integer.toString(recurrent_status);
         st.setString(4, jTextField_tasks_taskStatus.getText());
-        st.setString(5, task_id);
+        st.setString(5, srecurrent_status );
+        st.setString(6, task_id);
         int rs = st.executeUpdate();
         if (rs == 1){
             System.out.println("in ViewTasks -- edit successful");
@@ -526,8 +593,6 @@ public class ViewTasks extends javax.swing.JFrame {
         }
         return("category not found");
     }
-        
- 
 
 
 }

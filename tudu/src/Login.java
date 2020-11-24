@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,6 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -269,6 +271,7 @@ public class Login extends javax.swing.JFrame {
                 d.setUser_name(user_name);
                 d.setTitle("Dashboard");
                 d.setVisible(true);
+                d.populateList();
                 d.setUserDetailsFromLogin(user_name, user_id);
                 
             } else {
