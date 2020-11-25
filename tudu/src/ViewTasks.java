@@ -556,7 +556,7 @@ public class ViewTasks extends javax.swing.JFrame {
                     stCompleteTasks.setString(2, task_id);
                     stCompleteTasks.setString(3, Integer.toString(dateResult));
                     
-                    int rsCompleteTasks = st.executeUpdate();
+                    int rsCompleteTasks = stCompleteTasks.executeUpdate();
                     if (rsCompleteTasks == 1)
                     {
                         System.out.println("in ViewTasks -- second edit successful");
