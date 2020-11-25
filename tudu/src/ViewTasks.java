@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -504,6 +506,7 @@ public class ViewTasks extends javax.swing.JFrame {
         
         Connection dbconn= DBConnection.connectDB();
         System.out.println("in ViewTasks" + task_id);
+        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         try {
         PreparedStatement st = (PreparedStatement)
@@ -519,15 +522,51 @@ public class ViewTasks extends javax.swing.JFrame {
             String sDate = date.toString();
             st.setString(3, sDate);
         } else {
+            taskDate = dateTimeFormatter.parse(jTextField_tasks_taskDuedate.getText());
             st.setString(3, jTextField_tasks_taskDuedate.getText());
         }
         String srecurrent_status = Integer.toString(recurrent_status);
-        st.setString(4, jTextField_tasks_taskStatus.getText());
+        String status = jTextField_tasks_taskStatus.getText();
+        st.setString(4,status);
         st.setString(5, srecurrent_status );
         st.setString(6, task_id);
         int rs = st.executeUpdate();
         if (rs == 1){
-            System.out.println("in ViewTasks -- edit successful");
+            //update GUI and create and execute second query for user_completed_tasks
+            System.out.println("in ViewTasks -- first edit successful");
+            System.out.println("status: " + status);
+            if (status.equals("4"))
+            {
+                //get current date      
+                Date currentDate=java.util.Calendar.getInstance().getTime();
+                System.out.println("currentDate: " + currentDate);
+                System.out.println("taskDate: " + taskDate);
+                int dateCompared=currentDate.compareTo(taskDate); //compareto is a function defined for date
+                int dateResult = 0;
+                if (dateCompared <=0)
+                    dateResult = 2;
+                else
+                    dateResult = 1;
+                
+                //send query to user_completed_task table
+                try{
+                    PreparedStatement stCompleteTasks = (PreparedStatement)
+                        dbconn.prepareStatement("Insert into user_completed_tasks(completed_user_id, completed_task_id, completed) values (?,?,?)");
+                    stCompleteTasks.setString(1, Integer.toString(this.user_id));
+                    stCompleteTasks.setString(2, task_id);
+                    stCompleteTasks.setString(3, Integer.toString(dateResult));
+                    
+                    int rsCompleteTasks = st.executeUpdate();
+                    if (rsCompleteTasks == 1)
+                    {
+                        System.out.println("in ViewTasks -- second edit successful");
+                    }
+                }
+                catch(Exception ex){
+                    JOptionPane.showMessageDialog(this, "Big Dingus move", "Error", JOptionPane.ERROR_MESSAGE);
+
+                }
+            }            
             // set value of the row
             DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
             int selectedRowIndex = jTable_Tasks.getSelectedRow();

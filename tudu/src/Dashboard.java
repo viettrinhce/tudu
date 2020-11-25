@@ -73,7 +73,7 @@ public class Dashboard extends javax.swing.JFrame {
                     }
                     if (count_alert > current_alert) {
                         current_alert = count_alert;
-                        JOptionPane.showMessageDialog(null, "In coming due_date, you are late", "Warning",JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "A task is due within 24 hours!", "Warning",JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (Exception ex) {
                         Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
