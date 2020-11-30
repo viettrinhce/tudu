@@ -165,6 +165,7 @@ public class Dashboard extends javax.swing.JFrame {
         logoutBtn = new javax.swing.JButton();
         profileToggleBtn = new javax.swing.JToggleButton();
         deleteAcctBtn = new javax.swing.JButton();
+        viewProductivityBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         chooseCategoryComboBox = new javax.swing.JComboBox<>();
         jTextField_categoryName_DB = new javax.swing.JTextField();
@@ -243,6 +244,13 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        viewProductivityBtn.setText("View Productivity");
+        viewProductivityBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewProductivityBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -250,7 +258,9 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(150, 150, 150)
+                .addComponent(viewProductivityBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(44, 44, 44)
                 .addComponent(deleteAcctBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(profileToggleBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,9 +275,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                     .addComponent(logoutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(deleteAcctBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(profileToggleBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(deleteAcctBtn)
+                    .addComponent(profileToggleBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(viewProductivityBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.darkGray, java.awt.Color.white));
@@ -584,7 +595,7 @@ public class Dashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -708,6 +719,15 @@ public class Dashboard extends javax.swing.JFrame {
         this.task.cancel();
     }//GEN-LAST:event_logoutBtnActionPerformed
 
+    private void viewProductivityBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewProductivityBtnActionPerformed
+        // TODO add your handling code here:
+        ViewProductivity p = new ViewProductivity();
+        p.setUser_id(this.user_id);
+        p.setUser_name(this.user_name);
+        p.populateList();
+        p.setVisible(true);
+    }//GEN-LAST:event_viewProductivityBtnActionPerformed
+
     private void FillComboBox()
     {
         Connection dbconn= DBConnection.connectDB();
@@ -793,6 +813,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTextField newTeamNameField;
     private javax.swing.JInternalFrame profileInternalFrame;
     private javax.swing.JToggleButton profileToggleBtn;
+    private javax.swing.JButton viewProductivityBtn;
     // End of variables declaration//GEN-END:variables
 
     private void userCreateTask() {

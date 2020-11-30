@@ -616,7 +616,7 @@ public class ViewTasks extends javax.swing.JFrame {
             //update GUI and create and execute second query for user_completed_tasks
             System.out.println("in ViewTasks -- first edit successful");
             System.out.println("status: " + status);
-            if (status.equals("4"))
+            if (status.equals("3"))
             {
                 //get current date      
                 Date currentDate=java.util.Calendar.getInstance().getTime();
