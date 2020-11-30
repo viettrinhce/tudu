@@ -181,7 +181,7 @@ public class ViewProductivity extends javax.swing.JFrame {
     public void AddRowToJTable(Object[] dataRow){
         DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
         model.addRow(dataRow);
-        changeCellColor(jTable_Tasks,3);
+//        changeCellColor(jTable_Tasks,3);
     }
     
     /**
@@ -274,13 +274,21 @@ public class ViewProductivity extends javax.swing.JFrame {
             String retrieved_userID = rs.getString(1);
             System.out.println("In ViewProductivity: getUserID: " + retrieved_userID);
 
+            PreparedStatement getUserName = (PreparedStatement)
+                    dbconn.prepareStatement("SELECT username FROM user WHERE user_id = ?");
+            getUserName.setString(1, retrieved_userID);
+            ResultSet retrievedUserNameSet = getUserName.executeQuery();
+            retrievedUserNameSet.next();
+            String retrievedUserName = retrievedUserNameSet.getString(1);
+            retrievedUserNameSet.close();
+            
             String tasks_late = rs.getString(2);
             
             String tasks_ontime = rs.getString(3);
             
             float usr_avg_productivity = calcProductivity(tasks_late, tasks_ontime);
             AddRowToJTable(new Object[]{
-                            retrieved_userID,
+                            retrievedUserName,
                             tasks_late,
                             tasks_ontime,
                             usr_avg_productivity
@@ -298,7 +306,7 @@ public class ViewProductivity extends javax.swing.JFrame {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                int prod_avg = Integer.parseInt(table.getValueAt(row, 4).toString());
+                int prod_avg = Integer.parseInt(table.getValueAt(row, column_index).toString());
                 final Color best = new Color(153,255,153);
                 final Color medium = new Color(255,255,102);
                 final Color good = new Color(102,204,255);
@@ -320,7 +328,7 @@ public class ViewProductivity extends javax.swing.JFrame {
     private float calcProductivity(String tasks_late, String tasks_ontime) {
         int tLate = Integer.parseInt(tasks_late);
         int tOnTime = Integer.parseInt(tasks_ontime);
-        float avg = ((1*tLate)*(2*tOnTime))/(tLate+tOnTime);
+        float avg = ((1*tLate)+(2*tOnTime))/(float)(tLate+tOnTime);
         return avg;
     }
 
