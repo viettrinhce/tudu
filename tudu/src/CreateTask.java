@@ -319,7 +319,7 @@ public class CreateTask extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 120, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -539,10 +539,23 @@ public class CreateTask extends javax.swing.JFrame {
             ResultSet rs = st.executeQuery();
             
             while(rs.next())
-            {
+            {               
+                PreparedStatement st2 = (PreparedStatement)
+                dbconn.prepareStatement("SELECT team_name FROM team where team.team_id in\n" +
+                                            "(SELECT team_category_id FROM category where category.category_id = ?);");
+                
+                st2.setString(1,rs.getString(1));
+                ResultSet rs2 = st2.executeQuery();
+                String sTeamname = "";
+                while(rs2.next())
+                {
+                    sTeamname = rs2.getString(1);
+                }
+                
+                
                 id = rs.getString(1);
                 name = rs.getString(2);
-                category_task_ComboBox.addItem(id + ": " + name);                
+                category_task_ComboBox.addItem(id + ": " + name + "__Team: " + sTeamname);                
             }
             
         }catch (Exception ex){

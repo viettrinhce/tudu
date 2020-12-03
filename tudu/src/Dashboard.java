@@ -65,10 +65,14 @@ public class Dashboard extends javax.swing.JFrame {
                     int count_alert = 0;
                     for (int i = rowCount - 1; i >= 0; i--) {
                         String str1 = model.getValueAt(i, 1).toString();
-                        Date date = sdf.parse(str1);
-                        long millis = Math.abs(date.getTime() - System.currentTimeMillis());
-                        if (millis <= 2*24*60*60*1000){
-                            count_alert += 1;
+                        try{
+                            Date date = sdf.parse(str1);
+                            long millis = Math.abs(date.getTime() - System.currentTimeMillis());
+                            if (millis <= 2*24*60*60*1000){
+                                count_alert += 1;
+                            }
+                        } catch (Exception ex){
+                            //do nothing
                         }
                     }
                     if (count_alert > current_alert) {
@@ -110,8 +114,12 @@ public class Dashboard extends javax.swing.JFrame {
     public void AddRowToJTable(Object[] dataRow){
         DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
         model.addRow(dataRow);
-        changeCellColor(jTable_Tasks,3);
-
+        changeCellColor(jTable_Tasks,4);
+    }
+    
+    public void AddRowToJTableTeam(Object[] dataRow){
+        DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
+        model.addRow(dataRow);
     }
     
     public void ClearRowsJTable(){
@@ -128,20 +136,26 @@ public class Dashboard extends javax.swing.JFrame {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                int st_val = Integer.parseInt(table.getValueAt(row, 3).toString());
-                System.out.println(st_val);
-                final Color notStarted = new Color(153,255,153);
-                final Color inProgress = new Color(255,255,102);
-                final Color done = new Color(102,204,255);
-                final Color abandon = new Color(255,153,153);
-                if (st_val == 1) {
-                    c.setBackground(notStarted);
-                } else if(st_val == 2) {
-                    c.setBackground(inProgress);
-                }else if(st_val == 3) {
-                    c.setBackground(done);
-                }else if(st_val == 4) {
-                    c.setBackground(abandon);
+                try{
+                    int st_val = Integer.parseInt(table.getValueAt(row, 4).toString());
+                    System.out.println(st_val);
+                    final Color notStarted = new Color(153,255,153);
+                    final Color inProgress = new Color(255,255,102);
+                    final Color done = new Color(102,204,255);
+                    final Color abandon = new Color(255,153,153);
+                    if (st_val == 1) {
+                        c.setBackground(notStarted);
+                    } else if(st_val == 2) {
+                        c.setBackground(inProgress);
+                    }else if(st_val == 3) {
+                        c.setBackground(done);
+                    }else if(st_val == 4) {
+                        c.setBackground(abandon);
+                    }
+                } catch (Exception ex) {
+                    // do nothing
+                    final Color noColor = null;
+                    c.setBackground(noColor);
                 }
                 return c;
             }
@@ -259,7 +273,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(150, 150, 150)
-                .addComponent(viewProductivityBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(viewProductivityBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                 .addGap(44, 44, 44)
                 .addComponent(deleteAcctBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -275,10 +289,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                     .addComponent(logoutBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(deleteAcctBtn)
                     .addComponent(profileToggleBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(viewProductivityBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(viewProductivityBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteAcctBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.darkGray, java.awt.Color.white));
@@ -408,14 +422,12 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonDashboardCreatetask, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDashboardCreatetask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -434,11 +446,11 @@ public class Dashboard extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Due Date", "Recurrent", "Status"
+                "Team_name", "Task_name", "Due Date", "Recurrent", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -547,20 +559,19 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(profileInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(editCategoryTeams, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(editCategoryTeams, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 765, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(profileInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -593,9 +604,7 @@ public class Dashboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -635,6 +644,7 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         chooseTeamComboBox.removeAllItems();
         FillComboBox();
+        populateList();
     }//GEN-LAST:event_createTeamBtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -693,6 +703,8 @@ public class Dashboard extends javax.swing.JFrame {
             int res = st.executeUpdate();
             System.out.println("got result - Join Team");
             System.out.println("res: " + res);
+            JOptionPane.showMessageDialog(null, "Join team successful!!!", "Good job!!!",JOptionPane.ERROR_MESSAGE);
+            populateList();
         } catch (Exception ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -734,7 +746,15 @@ public class Dashboard extends javax.swing.JFrame {
         try{
             String username, id;
             PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("Select team_id,team_name from team");
+                dbconn.prepareStatement("SELECT DISTINCT\n" +
+                                        "team.team_id, team.team_name,\n" +
+                                        "user_team.user_id\n" +
+                                        "FROM team\n" +
+                                        "INNER JOIN user_team\n" +
+                                        "	ON team.team_id = user_team.team_id\n" +
+                                        "WHERE user_team.user_id = ?;");
+            String sUser_id = Integer.toString(user_id);
+            st.setString(1,sUser_id);
             ResultSet rs = st.executeQuery();
             while(rs.next())
             {
@@ -859,6 +879,24 @@ public class Dashboard extends javax.swing.JFrame {
             System.out.println("res: " + res);
             if (res!=1)
                 JOptionPane.showMessageDialog(this, "u r dumbo", "Error", JOptionPane.ERROR_MESSAGE);
+            else {
+                PreparedStatement st2 = (PreparedStatement)
+                dbconn.prepareStatement("SELECT team_id FROM team WHERE team_name = ?;");
+                st2.setString(1,teamName);
+                ResultSet rs2 = st2.executeQuery();
+                while(rs2.next())
+                {
+                    PreparedStatement st3 = (PreparedStatement)
+                        dbconn.prepareStatement("Insert into user_team(user_id, team_id) values (?,?);");
+                    sUser_id = Integer.toString(user_id);
+                    st3.setString(1, sUser_id);
+                    st3.setString(2, rs2.getString(1));
+                    int res3 = st3.executeUpdate();       
+                    System.out.println("res3: " + res3);
+                    if (res3!=1)
+                        JOptionPane.showMessageDialog(this, "u r dumbo", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
 
         }
         catch (Exception ex) {
@@ -893,6 +931,7 @@ public class Dashboard extends javax.swing.JFrame {
         e.populateList_Team();
         e.populateList_Category();
         e.setVisible(true); 
+        e.FillComboBox();
         e.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -926,14 +965,18 @@ public class Dashboard extends javax.swing.JFrame {
         }
         
     }
+    
+
     protected void populateList()
     {
+        ClearRowsJTable();
         Connection dbconn= DBConnection.connectDB();
         DefaultListModel dmTaskName = new DefaultListModel();
         DefaultListModel dmTaskDueDate = new DefaultListModel();
         DefaultListModel dmTaskStatus = new DefaultListModel();
         DefaultListModel dmRecurrentStatus = new DefaultListModel();
         try {
+        /*
         String u;
         PreparedStatement st = (PreparedStatement)
                 dbconn.prepareStatement("Select * from task where user_id = ?");
@@ -969,6 +1012,95 @@ public class Dashboard extends javax.swing.JFrame {
         }
         rs.close();
         st.close();
+        */
+        
+        /*
+        *
+        *
+        */
+        PreparedStatement st = (PreparedStatement)
+                dbconn.prepareStatement("SELECT DISTINCT\n" +
+                                        "user_team.team_id,\n" +
+                                        "team.team_name\n" +
+                                        "FROM user_team\n" +
+                                        "INNER JOIN team\n" +
+                                        "	ON user_team.team_id = team.team_id\n" +
+                                        "WHERE user_id = ?\n" +
+                                        "GROUP BY \n" +
+                                        "    team_id\n" +
+                                        "ORDER by team_id asc");
+        
+        String user_idStr = Integer.toString(this.user_id);
+        st.setString(1, user_idStr);
+        ResultSet rs = st.executeQuery();
+        while(rs.next())
+        {
+            /*
+            
+            */
+            
+            AddRowToJTableTeam(new Object[]{
+                rs.getString(2),
+                " ",
+                " ",
+                " ",
+                " "
+                });
+            
+            String sRecurr;
+            PreparedStatement st2 = (PreparedStatement)
+                    dbconn.prepareStatement("SELECT DISTINCT\n" +
+                                            "task.task_name, task.task_duedate, task.recurrent_status, task.status, task.task_id, task.category_id,\n" +
+                                            "category.team_category_id\n" +
+                                            "FROM task\n" +
+                                            "INNER JOIN category\n" +
+                                            "	ON task.category_id = category.category_id \n" +
+                                            "WHERE task.user_id = ? and category.team_category_id = ?\n" +
+                                            "GROUP BY \n" +
+                                            "	task.task_name");
+            
+            String sUser_id = Integer.toString(this.user_id);
+            st2.setString(1, sUser_id);
+            st2.setString(2, rs.getString(1));
+            ResultSet rs2 = st2.executeQuery();
+
+            while(rs2.next())
+            {
+                sRecurr = rs2.getString(3);
+                switch(sRecurr) {
+                    case "1":
+                        sRecurr = "Daily";
+                        break;
+                    case "2":
+                        sRecurr = "Weekly";
+                      break;
+                    case "3":
+                        sRecurr = "Monthly";
+                        break;
+                    default:
+                        sRecurr = "One time only bruh";
+                }
+                AddRowToJTable(new Object[]{
+                                "       #",
+                                rs2.getString(1),
+                                rs2.getString(2),
+                                sRecurr,
+                                rs2.getString(4)
+                                });
+            }
+            rs2.close();
+            st2.close();
+            /*
+            
+            */
+        }
+        rs.close();
+        st.close();
+        /*
+        *
+        *
+        */
+        
         } catch (Exception ex) {
              Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }

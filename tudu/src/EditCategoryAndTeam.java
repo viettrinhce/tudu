@@ -65,7 +65,6 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Category_Edit = new javax.swing.JTable();
         jTextField_Category_Edit = new javax.swing.JTextField();
-        jTextField_Category_Team = new javax.swing.JTextField();
         jButton_Category_Delete = new javax.swing.JButton();
         jButton_Category_Edit = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -73,6 +72,7 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jComboBox_Category_Team = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_Team_Edit = new javax.swing.JTable();
@@ -144,12 +144,6 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
             }
         });
 
-        jTextField_Category_Team.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_Category_TeamActionPerformed(evt);
-            }
-        });
-
         jButton_Category_Delete.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jButton_Category_Delete.setText("Delete Category");
         jButton_Category_Delete.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.lightGray, java.awt.Color.white));
@@ -198,16 +192,23 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
         );
 
         jLabel9.setBackground(new java.awt.Color(255, 204, 102));
-        jLabel9.setForeground(new java.awt.Color(255, 153, 0));
-        jLabel9.setText("Note: You are only be are to edit category have ur tasks");
+        jLabel9.setForeground(new java.awt.Color(255, 51, 0));
+        jLabel9.setText("Note: You are only be are to edit category in your Team");
+
+        jComboBox_Category_Team.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_Category_TeamActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -221,14 +222,13 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextField_Category_Edit, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                                    .addComponent(jTextField_Category_Team)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jComboBox_Category_Team, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,13 +244,13 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
                             .addComponent(jTextField_Category_Edit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Category_Team, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jComboBox_Category_Team, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton_Category_Edit, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                             .addComponent(jButton_Category_Delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(52, 52, 52))
+                        .addGap(54, 54, 54))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(34, Short.MAX_VALUE))))
@@ -340,8 +340,8 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel8.setBackground(new java.awt.Color(255, 204, 102));
-        jLabel8.setForeground(new java.awt.Color(255, 153, 0));
+        jLabel8.setBackground(new java.awt.Color(255, 102, 0));
+        jLabel8.setForeground(new java.awt.Color(255, 51, 0));
         jLabel8.setText("Note: You are only be are to edit your team");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -480,7 +480,7 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel)jTable_Category_Edit.getModel();
         int selectedRowIndex = jTable_Category_Edit.getSelectedRow();
         jTextField_Category_Edit.setText(model.getValueAt(selectedRowIndex, 1).toString());
-        jTextField_Category_Team.setText(model.getValueAt(selectedRowIndex, 2).toString());
+        //jTextField_Category_Team.setText(model.getValueAt(selectedRowIndex, 2).toString());
     }//GEN-LAST:event_jTable_Category_EditMouseClicked
 
     private void jButton_Category_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Category_DeleteActionPerformed
@@ -492,10 +492,38 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
         model.removeRow(selectedRowIndex);
     }//GEN-LAST:event_jButton_Category_DeleteActionPerformed
 
-    private void jTextField_Category_TeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_Category_TeamActionPerformed
+    private void jComboBox_Category_TeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_Category_TeamActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_Category_TeamActionPerformed
-
+        
+    }//GEN-LAST:event_jComboBox_Category_TeamActionPerformed
+    
+    public void FillComboBox()
+    {
+        jComboBox_Category_Team.addItem("choose team");  
+        Connection dbconn= DBConnection.connectDB();
+        try{
+            PreparedStatement st = (PreparedStatement)
+                dbconn.prepareStatement("SELECT DISTINCT\n" +
+                                        "team.team_id, team.team_name,\n" +
+                                        "user_team.user_id\n" +
+                                        "FROM team\n" +
+                                        "INNER JOIN user_team\n" +
+                                        "	ON team.team_id = user_team.team_id\n" +
+                                        "WHERE user_team.user_id = ?;");
+            String sUser_id = Integer.toString(user_id);
+            st.setString(1,sUser_id);
+            ResultSet rs = st.executeQuery();
+            while(rs.next())
+            {
+                String id = rs.getString(1);
+                String team_name = rs.getString(2);
+                jComboBox_Category_Team.addItem(id + ": " + team_name);   
+            }
+            
+        }catch (Exception ex){
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -538,6 +566,7 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
     private javax.swing.JButton jButton_Category_Edit;
     private javax.swing.JButton jButton_Delete_Team;
     private javax.swing.JButton jButton_Edit_Team;
+    private javax.swing.JComboBox<String> jComboBox_Category_Team;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -557,7 +586,6 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
     private javax.swing.JTable jTable_Category_Edit;
     private javax.swing.JTable jTable_Team_Edit;
     private javax.swing.JTextField jTextField_Category_Edit;
-    private javax.swing.JTextField jTextField_Category_Team;
     private javax.swing.JTextField jTextField_Team_Name_Edit;
     private javax.swing.JTextField jTextField_Team_Owner_Edit;
     // End of variables declaration//GEN-END:variables
@@ -605,7 +633,14 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
         try {
         String u;
         PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("Select DISTINCT category_id from task where user_id = ?");
+                dbconn.prepareStatement("SELECT DISTINCT\n" +
+                                        "category.category_id,\n" +
+                                        "user_team.team_id, user_team.user_id\n" +
+                                        "FROM user_team\n" +
+                                        "INNER JOIN category\n" +
+                                        "	ON user_team.team_id = category.team_category_id \n" +
+                                        "WHERE user_team.user_id = ?\n" +
+                                        "ORDER BY category.category_id asc;");
         String user_idStr = Integer.toString(this.user_id);
         
         st.setString(1, user_idStr);
@@ -672,15 +707,12 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
 
         int rs = st.executeUpdate();
         if (rs == 1){
-            System.out.println("in editTeam -- edit successful - ahihi - stupid");
-            
             // set value of the row
             DefaultTableModel model = (DefaultTableModel)jTable_Team_Edit.getModel();
             int selectedRowIndex = jTable_Team_Edit.getSelectedRow();
             model.setValueAt(jTextField_Team_Name_Edit.getText(), selectedRowIndex, 1);
             model.setValueAt(jTextField_Team_Owner_Edit.getText(), selectedRowIndex, 2);
         } else {
-            System.out.println("in editTeam -- edit fail -- u dumb mtfk");
         }
         st.close();
         } catch (Exception ex) {
@@ -716,28 +748,47 @@ public class EditCategoryAndTeam extends javax.swing.JFrame {
 
         try {
         PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("Update\n" +
-"Category as C\n" +
-"INNER JOIN (\n" +
-"SELECT team_id\n" +
-"FROM team\n" +
-"WHERE team_name = ? )\n" +
-"AS T on C.team_category_id = T.team_id\n" +
-"SET C.name = ?, C.team_category_id = T.team_id;");
-        st.setString(1, jTextField_Category_Team.getText());
-        st.setString(2, jTextField_Category_Edit.getText());
+                dbconn.prepareStatement("Update Category \n" +
+                                        "SET Category.name = ?, Category.team_category_id = ?\n" +
+                                        "WHERE Category.name = ?;");
+        
+        st.setString(1, jTextField_Category_Edit.getText());
+              
+        // set value of the row
+        DefaultTableModel model = (DefaultTableModel)jTable_Category_Edit.getModel();
+        int selectedRowIndex = jTable_Category_Edit.getSelectedRow();
+        String str = model.getValueAt(selectedRowIndex, 1).toString();
+        st.setString(3, str);
+        
+        str = jComboBox_Category_Team.getSelectedItem().toString();
+        if (str == "choose team"){
+            st = (PreparedStatement)
+                dbconn.prepareStatement("Update Category \n" +
+                                        "SET Category.name = ?\n" +
+                                        "WHERE Category.name = ?;");
+            st.setString(1, jTextField_Category_Edit.getText());
+            st.setString(2, model.getValueAt(selectedRowIndex, 1).toString());
+        } else {
+            int index = str.indexOf(':');
+            str = str.substring(0,index);
+            st.setString(2, str);
+
+        }
 
         int rs = st.executeUpdate();
         if (rs == 1){
-            System.out.println("in editCategory -- edit successful - ahihi - stupid");
-            
-            // set value of the row
-            DefaultTableModel model = (DefaultTableModel)jTable_Category_Edit.getModel();
-            int selectedRowIndex = jTable_Category_Edit.getSelectedRow();
+            str = jComboBox_Category_Team.getSelectedItem().toString();
             model.setValueAt(jTextField_Category_Edit.getText(), selectedRowIndex, 1);
-            model.setValueAt(jTextField_Category_Team.getText(), selectedRowIndex, 2);
+            if (str == "choose team"){
+                // do nothing
+            } else {
+                int index = str.indexOf(':');
+                str = str.substring(index+2,str.length());
+                model.setValueAt(str, selectedRowIndex, 2);
+            }
+            
         } else {
-            System.out.println("in editCategory -- edit fail -- u dumb mtfk");
+            System.out.println("in editCategory -- edit fail");
         }
         st.close();
         } catch (Exception ex) {
