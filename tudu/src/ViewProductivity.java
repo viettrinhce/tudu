@@ -27,6 +27,9 @@ public class ViewProductivity extends javax.swing.JFrame {
 
     private int user_id = 0;
     private String user_name = "None";
+    private int teamProductivityScore = 0;
+    private int teamProductivityCount = 0;
+    private float teamProductivityAvg;
     public int getUser_id(){
         return this.user_id;
     }
@@ -59,9 +62,11 @@ public class ViewProductivity extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable_Tasks = new javax.swing.JTable();
+        jTable_Teams = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable_Tasks = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -80,13 +85,13 @@ public class ViewProductivity extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(239, 233, 233));
 
-        jTable_Tasks.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        jTable_Tasks.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_Teams.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jTable_Teams.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "user", "tasks on time", "tasks late", "avg productivity"
+                "Team", "Score", "Count", "avg productivity"
             }
         ) {
             Class[] types = new Class [] {
@@ -104,12 +109,12 @@ public class ViewProductivity extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable_Tasks.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTable_Teams.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable_TasksMouseClicked(evt);
+                jTable_TeamsMouseClicked(evt);
             }
         });
-        jScrollPane5.setViewportView(jTable_Tasks);
+        jScrollPane5.setViewportView(jTable_Teams);
 
         jPanel2.setBackground(new java.awt.Color(102, 102, 102));
 
@@ -135,6 +140,37 @@ public class ViewProductivity extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jTable_Tasks.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jTable_Tasks.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "user", "tasks late", "tasks on time", "avg productivity"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable_Tasks.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_TasksMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(jTable_Tasks);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,17 +179,21 @@ public class ViewProductivity extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-                .addGap(23, 23, 23))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -166,20 +206,24 @@ public class ViewProductivity extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTable_TeamsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_TeamsMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)jTable_Teams.getModel();
+        int selectedRowIndex = jTable_Teams.getSelectedRow();
+    }//GEN-LAST:event_jTable_TeamsMouseClicked
+
     private void jTable_TasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_TasksMouseClicked
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
-        int selectedRowIndex = jTable_Tasks.getSelectedRow();
     }//GEN-LAST:event_jTable_TasksMouseClicked
     
     public void AddRowToJTable(Object[] dataRow){
-        DefaultTableModel model = (DefaultTableModel)jTable_Tasks.getModel();
+        DefaultTableModel model = (DefaultTableModel)jTable_Teams.getModel();
         model.addRow(dataRow);
 //        changeCellColor(jTable_Tasks,3);
     }
@@ -226,11 +270,14 @@ public class ViewProductivity extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable_Tasks;
+    private javax.swing.JTable jTable_Teams;
     // End of variables declaration//GEN-END:variables
     protected void populateList()
     {
+        int thisComplete = 0;
         System.out.println("populateList entered");
         Connection dbconn= DBConnection.connectDB();
         try {
@@ -244,58 +291,118 @@ public class ViewProductivity extends javax.swing.JFrame {
 //        SELECT COUNT(completed) from completions where completed_user_id = 4 and completed = 2;
 //        SELECT completed_user_id as user_id, completed, count(*) as lateOrNot from completions group by completed;
 //        almost
+//        PreparedStatement st = (PreparedStatement)
+//                dbconn.prepareStatement("CREATE TEMPORARY TABLE users_in_teams SELECT DISTINCT user_id as uid,team_id FROM user_team where team_id in (select team_id from team where team_owner_id = ?)");
+//        String user_idStr = Integer.toString(this.user_id);
+//        st.setString(1, user_idStr);
+//        st.execute();
+//        st.close();
+//        PreparedStatement st2 = (PreparedStatement)
+//                dbconn.prepareStatement("CREATE TEMPORARY TABLE completions SELECT DISTINCT completed_user_id,completed_task_id,completed from user_completed_tasks INNER JOIN users_in_teams on completed_user_id = users_in_teams.uid where completed_user_id = users_in_teams.uid;");
+//        st2.execute();
+//                st2.close();
+//
+//         PreparedStatement st3 = (PreparedStatement)
+//                dbconn.prepareStatement("CREATE TEMPORARY TABLE late SELECT completed_user_id, COUNT(completed), as tasks_late from completions where completed = 1 GROUP BY completed_user_id;");
+//        st3.execute();
+//                st3.close();
+//
+//        PreparedStatement st4 = (PreparedStatement)
+//                dbconn.prepareStatement("CREATE TEMPORARY TABLE ontime SELECT completed_user_id, COUNT(completed) as tasks_ontime from completions where completed = 2 GROUP BY completed_user_id;");
+//        st4.execute();
+//                st4.close();
+//
+//        PreparedStatement getData = (PreparedStatement)
+//                dbconn.prepareStatement("SELECT late.completed_user_id, tasks_late,tasks_ontime from late INNER JOIN ontime ON late.completed_user_id = ontime.completed_user_id group by late.completed_user_id;");
+//        
+//        ResultSet rs = getData.executeQuery();
+
         PreparedStatement st = (PreparedStatement)
-                dbconn.prepareStatement("CREATE TEMPORARY TABLE users_in_teams SELECT DISTINCT user_id as uid,team_id FROM user_team where team_id in (select team_id from team where team_owner_id = ?)");
-        String user_idStr = Integer.toString(this.user_id);
-        st.setString(1, user_idStr);
-        st.execute();
-        st.close();
-        PreparedStatement st2 = (PreparedStatement)
-                dbconn.prepareStatement("CREATE TEMPORARY TABLE completions SELECT DISTINCT completed_user_id,completed_task_id,completed from user_completed_tasks INNER JOIN users_in_teams on completed_user_id = users_in_teams.uid where completed_user_id = users_in_teams.uid;");
-        st2.execute();
-                st2.close();
+                        dbconn.prepareStatement("SELECT DISTINCT team_id from user_team WHERE user_id = ?;");
+                String user_idStr = Integer.toString(this.user_id);
+                st.setString(1, user_idStr);
 
-         PreparedStatement st3 = (PreparedStatement)
-                dbconn.prepareStatement("CREATE TEMPORARY TABLE late SELECT completed_user_id, COUNT(completed) as tasks_late from completions where completed = 1 GROUP BY completed_user_id;");
-        st3.execute();
-                st3.close();
-
-        PreparedStatement st4 = (PreparedStatement)
-                dbconn.prepareStatement("CREATE TEMPORARY TABLE ontime SELECT completed_user_id, COUNT(completed) as tasks_ontime from completions where completed = 2 GROUP BY completed_user_id;");
-        st4.execute();
-                st4.close();
-
-        PreparedStatement getData = (PreparedStatement)
-                dbconn.prepareStatement("SELECT late.completed_user_id, tasks_late,tasks_ontime from late INNER JOIN ontime ON late.completed_user_id = ontime.completed_user_id group by late.completed_user_id;");
-        
-        ResultSet rs = getData.executeQuery();
+                st.executeQuery();
+                ResultSet rs = st.executeQuery();
         while(rs.next())
         {
-            String retrieved_userID = rs.getString(1);
-            System.out.println("In ViewProductivity: getUserID: " + retrieved_userID);
+            String retrieved_teamID = rs.getString(1);
+            System.out.println("team_id in viewProductivity: " + retrieved_teamID);
+              PreparedStatement st2 = (PreparedStatement)
+                dbconn.prepareStatement("SELECT DISTINCT\n" +
+                "task.task_name, task.status, task.task_id,\n" +
+                "user_team.user_id, user_team.team_id\n" +
+                "FROM user_team\n" +
+                "INNER JOIN task\n" +
+                "ON task.user_id = user_team.user_id\n" +
+                "WHERE team_id = ?" +
+                "GROUP BY\n" +
+                "task.task_name;" 
+                );
+              st2.setString(1, retrieved_teamID);
+        ResultSet rs2= st2.executeQuery();
+        teamProductivityScore = 0;
+        teamProductivityCount = 0;
+        
+       
+        while(rs2.next())
+        {
+//            System.out.println("table in viewProductivity: " + rs2.getString(1) + rs2.getString(2) + rs2.getString(3));
+            
+            
+//            String retrieved_userID = rs.getString(1);
+//            System.out.println("In ViewProductivity: getUserID: " + retrieved_userID);
 
-            PreparedStatement getUserName = (PreparedStatement)
-                    dbconn.prepareStatement("SELECT username FROM user WHERE user_id = ?");
-            getUserName.setString(1, retrieved_userID);
-            ResultSet retrievedUserNameSet = getUserName.executeQuery();
-            retrievedUserNameSet.next();
-            String retrievedUserName = retrievedUserNameSet.getString(1);
-            retrievedUserNameSet.close();
+            PreparedStatement getCompleted = (PreparedStatement)
+                    dbconn.prepareStatement("SELECT completed FROM user_completed_tasks WHERE completed_user_id = ? and completed_task_id = ?;");
+//            System.out.println("getString(4): "+ rs2.getString(4));
+//            System.out.println("getString(3): "+ rs2.getString(3));
             
-            String tasks_late = rs.getString(2);
+            getCompleted.setString(1, rs2.getString(4));
+            getCompleted.setString(2, rs2.getString(3));
+//            System.out.println(getCompleted);
+            ResultSet completedResult = getCompleted.executeQuery();
             
-            String tasks_ontime = rs.getString(3);
+            boolean check = false;
             
-            float usr_avg_productivity = calcProductivity(tasks_late, tasks_ontime);
+            while (completedResult.next())
+            {
+                thisComplete = Integer.parseInt(completedResult.getString(1));
+                check = true;
+//                System.out.println("completedResult: " + completedResult.getString(1));         
+            }
+            
+           if (!check){
+               thisComplete = 2;
+           }
+
+           teamProductivityScore+=thisComplete;
+           teamProductivityCount+=1;
+            completedResult.close();
+//            ResultSet retrievedUserNameSet = getUserName.executeQuery();
+//            retrievedUserNameSet.next();
+//            String retrievedUserName = retrievedUserNameSet.getString(1);
+////            retrievedUserNameSet.close();
+////            
+//            String tasks_late = rs2.getString(2);
+//            
+//            String tasks_ontime = rs2.getString(3);
+//            
+//            float usr_avg_productivity = calcProductivity(tasks_late, tasks_ontime);
+            
+        }
+        rs2.close();
+            System.out.println("teamProductivityScore: " + teamProductivityScore + ", teamProductivityCount: " + teamProductivityCount);
             AddRowToJTable(new Object[]{
-                            retrievedUserName,
-                            tasks_late,
-                            tasks_ontime,
-                            usr_avg_productivity
+                            retrieved_teamID,
+                            teamProductivityScore,
+                            teamProductivityCount,
+                            (float)teamProductivityScore / teamProductivityCount
                             });
         }
+        
         rs.close();
-        getData.close();
+//        getData.close();
         } catch (Exception ex) {
              Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
