@@ -109,6 +109,7 @@ public class Dashboard extends javax.swing.JFrame {
         profileToggleBtn.setText("username_ " + username);
         setUser_id(id);
         FillComboBox();
+        FillComboBoxTeam();
     } 
     
     public void AddRowToJTable(Object[] dataRow){
@@ -644,6 +645,7 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         chooseTeamComboBox.removeAllItems();
         FillComboBox();
+        FillComboBoxTeam();
         populateList();
     }//GEN-LAST:event_createTeamBtnActionPerformed
 
@@ -742,6 +744,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void FillComboBox()
     {
+        chooseCategoryComboBox.removeAllItems();
         Connection dbconn= DBConnection.connectDB();
         try{
             String username, id;
@@ -760,8 +763,38 @@ public class Dashboard extends javax.swing.JFrame {
             {
                 id = rs.getString(1);
                 username = rs.getString(2);
-                chooseTeamComboBox.addItem(id + ": " + username);   
+                //chooseTeamComboBox.addItem(id + ": " + username);   
                 chooseCategoryComboBox.addItem(id + ": " + username);
+            }
+            
+        }catch (Exception ex){
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void FillComboBoxTeam()
+    {
+        chooseTeamComboBox.removeAllItems();
+        Connection dbconn= DBConnection.connectDB();
+        try{
+            String teamname, id;
+            PreparedStatement st = (PreparedStatement)
+                dbconn.prepareStatement("SELECT DISTINCT\n" +
+                                        "team.team_id, team.team_name,\n" +
+                                        "user_team.user_id\n" +
+                                        "FROM team\n" +
+                                        "INNER JOIN user_team\n" +
+                                        "	ON team.team_id = user_team.team_id\n" +
+                                        "GROUP BY team_name\n" +
+                                        "ORDER BY team_id asc;");
+            String sUser_id = Integer.toString(user_id);
+            ResultSet rs = st.executeQuery();
+            while(rs.next())
+            {
+                id = rs.getString(1);
+                teamname = rs.getString(2);
+                chooseTeamComboBox.addItem(id + ": " + teamname);   
+                //chooseCategoryComboBox.addItem(id + ": " + username);
             }
             
         }catch (Exception ex){
